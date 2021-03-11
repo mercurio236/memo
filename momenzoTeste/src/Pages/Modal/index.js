@@ -55,7 +55,7 @@ const Modal = ({ show, close }) => {
                 </View>
 
                 <TouchableOpacity style={styles.btn} onPress={close}>
-                    <Text style={{ color: '#FFF' }}>Close</Text>
+                    <Text style={{ color: '#FFF' }}>Fechar</Text>
                 </TouchableOpacity>
             </Animated.View>
 
@@ -112,7 +112,8 @@ const styles = StyleSheet.create({
     borderRadius:20,
     display:'flex',
     alignItems:'center',
-    justifyContent:'center'  
+    justifyContent:'center',
+    marginEnd:'1%'  
     },
 
     btnPro:{
@@ -127,7 +128,6 @@ const styles = StyleSheet.create({
     },
     dir:{
         flexDirection: 'row',
-        height:'45%',
-        justifyContent:'space-between',
+        height:'65%'
     }
 })
