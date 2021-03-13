@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
-import { View, Text, SafeAreaView, StatusBar, StyleSheet, TouchableOpacity, Modal, Image, Button } from 'react-native';
+import { View, Text, SafeAreaView, StatusBar, StyleSheet, TouchableOpacity, Modal, Image, PermissionsAndroid, Platform } from 'react-native';
 import { RNCamera } from 'react-native-camera'
+import CameraRoll from '@react-native-community/cameraroll';
+
 
 
 export default function Camera() {
@@ -11,20 +13,45 @@ export default function Camera() {
     async function takePickture(camera) {
         const optins = { quality: 0.5, base64: true }
         const data = await camera.takePictureAsync(optins)
-        
+
         setCapturaPhoto(data.uri)
         setModalOpen(true)
         console.log("Foto tirada Camera" + data.uri)
+
+        //Cahama function salvar
+        savePicture(data.uri)
     }
 
-    const modalClose = () =>{
-        setModalOpen(false)
+    async function hasAndroidPermission() {
+        const permission = PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE;
+
+        const hasPermission = await PermissionsAndroid.check(permission)
+        if (hasPermission) {
+            return true;
+        }
+
+        const status = await PermissionsAndroid.request(permission)
+        return status == 'granted';
+    }
+
+    async function savePicture(data) {
+        if (Platform.OS == 'android' && !(await hasAndroidPermission())){
+            return;
+        }
+
+        CameraRoll.save(data, 'photo')
+        .then((res) =>{
+            console.log('Salvo com sucesso: ' + res)
+        })
+        .catch((err) => {
+            console.log('Erro ao salvar: ' + err)
+        })
     }
 
     return (
 
         <View style={styles.container}>
-            
+
             <StatusBar hidden={true} />
             <RNCamera
                 style={styles.preview}
@@ -52,22 +79,22 @@ export default function Camera() {
                     )
                 }}
             </RNCamera>
-            
-            {capturaPhoto && 
-            <Modal animationType="slide" transparent={false} visible={modalOpen} onRequestClose={() => setModalOpen(!modalOpen)}>
-                <View style={{flex:1, justifyContent: 'center', alignItems: 'center' }}>
 
-                <Image
-                resizeMethod="contain"
-                style={{width: 350, height: 450, borderRadius:15, marginLeft:6, marginBottom:'4%'}}
-                source={{uri: capturaPhoto}}
-                />
+            {capturaPhoto &&
+                <Modal animationType="slide" transparent={false} visible={modalOpen} onRequestClose={() => setModalOpen(!modalOpen)}>
+                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
 
-                    <TouchableOpacity style={{  backgroundColor: "#000", borderRadius: 5, width: '20%', height: '5%', justifyContent: 'center', alignItems: 'center' }} onPress={() =>setModalOpen(!modalOpen)}>
-                        <Text style={{ fontSize: 20, color: '#FFF', fontWeight: 'bold' }}>Fechar</Text>
-                    </TouchableOpacity>
-                </View>
-            </Modal>
+                        <Image
+                            resizeMethod="contain"
+                            style={{ width: 350, height: 450, borderRadius: 15, marginLeft: 6, marginBottom: '4%' }}
+                            source={{ uri: capturaPhoto }}
+                        />
+
+                        <TouchableOpacity style={{ backgroundColor: "#000", borderRadius: 5, width: '20%', height: '5%', justifyContent: 'center', alignItems: 'center' }} onPress={() => setModalOpen(!modalOpen)}>
+                            <Text style={{ fontSize: 20, color: '#FFF', fontWeight: 'bold' }}>Fechar</Text>
+                        </TouchableOpacity>
+                    </View>
+                </Modal>
             }
         </View>
     )
