@@ -1,13 +1,15 @@
 import React from 'react';
-import { View, SafeAreaView, Text, StyleSheet } from 'react-native';
+import { View, SafeAreaView, Text, StyleSheet, ScrollView } from 'react-native';
 
 export default function Videos() {
     return (
-        <SafeAreaView style={styles.container}>
-            <View style={styles.body}>
-                <Text style={styles.text}>Não há videos em sua Galeria</Text>
-            </View>
-        </SafeAreaView>
+        <View style={styles.container}>
+            <ScrollView>
+                <View style={styles.body}>
+                    <Text style={styles.text}>Não há videos em sua Galeria</Text>
+                </View>
+            </ScrollView>
+        </View>
     )
 }
 
@@ -18,13 +20,14 @@ const styles = StyleSheet.create({
     },
     text: {
         color: '#FFF',
-        fontSize:20
+        fontSize: 20
     },
 
-    body:{
-        justifyContent:'center',
-        alignItems:'center',
-        display:'flex',
-        marginTop:'80%'
+    body: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        display: 'flex',
+        padding: 3,
+        margin: 10
     }
 })

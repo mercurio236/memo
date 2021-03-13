@@ -1,21 +1,27 @@
-import React,{useState} from 'react';
-import { View, Text, SafeAreaView, StyleSheet, TouchableOpacity } from 'react-native';
-import Header from '../../Components/Header'
+import React, { useState } from 'react';
+import { View, Text, SafeAreaView, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import Modal from '../Modal'
 
-function Home() {
+function Home({ navigation }) {
     const [modal, setModal] = useState(false)
     return (
-        <SafeAreaView style={styles.container}>
-            
-            <View style={styles.body}>
-                <Text style={{color:'#FFF', fontSize:30}}>Nenhum projeto encontrado</Text>
+
+        <View style={styles.container}>
+            <View style={styles.body} >
+            <ScrollView>
+                <Text style={{color:'#FFF', fontSize:20}}>Nenhum projeto encontrado</Text>
+            </ScrollView>
+
+
+                <TouchableOpacity style={styles.btnAdd} onPress={() => setModal(true)}>
+                    <Text style={{ fontSize: 40 }}>+</Text>
+                </TouchableOpacity>
             </View>
-            <TouchableOpacity style={styles.btnAdd} onPress={() => setModal(true) }>
-                <Text style={{fontSize:40}}>+</Text>
-            </TouchableOpacity>
-            <Modal show={modal} close={() => setModal(false)}/>
-        </SafeAreaView>
+            <Modal show={modal} close={() => setModal(false)} navigation={navigation} />
+        </View>
+
+
+
     )
 }
 
@@ -25,26 +31,23 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#000',
-        
     },
-    body:{
-        color:"#FFF",
-        padding:10,
+    body: {
+        color: "#FFF",
+        padding: 3,
+        margin:10,
+        justifyContent:'center',
+        flex:1,
+        alignItems:'center'
+    },
+    btnAdd: {
+        backgroundColor: '#FFF',
+        width: 60,
+        height: 60,
+        borderRadius: 200,
         justifyContent:'center',
         alignItems:'center',
-        marginTop:'60%'
-    },
-    btnAdd:{
-        backgroundColor:'#FFF',
-        justifyContent:'center',
-        alignItems:'center',
-        display:'flex',
-        marginEnd:'70%',
-        marginLeft:'79%',
-        width:'13%',
-        height:'7%',
-        borderRadius:200,
-        marginTop:'100%'
+        marginLeft:'80%'
     }
 
 })
