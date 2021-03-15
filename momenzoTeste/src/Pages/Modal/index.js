@@ -131,6 +131,6 @@ const styles = StyleSheet.create({
     },
     dir: {
         flexDirection: 'row',
-        height: '65%'
+        height: '58%'
     }
 })
