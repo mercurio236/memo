@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Animated, Dimensions, Button } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Animated, Dimensions, Button, LogBox } from 'react-native';
 
 
 const { height } = Dimensions.get('window');
@@ -16,8 +16,8 @@ function Modal({ show, close, navigation}){
 
     const openModal = () => {
         Animated.sequence([
-            Animated.timing(state.container, { toValue: 0, duration: 100 }),
-            Animated.timing(state.opacity, { toValue: 1, duration: 300 }),
+            Animated.timing(state.container, { toValue: 0, duration: 100, useNativeDriver: true }),
+            Animated.timing(state.opacity, { toValue: 1, duration: 300, useNativeDriver: true }),
             Animated.spring(state.modal, { toValue: 0, bounciness: 5, useNativeDriver: true })
         ]).start()
     }
@@ -25,8 +25,8 @@ function Modal({ show, close, navigation}){
     const closeModal = () => {
         Animated.sequence([
             Animated.timing(state.modal, { toValue: height, duration: 250, useNativeDriver: true }),
-            Animated.timing(state.opacity, { toValue: 0, duration: 300 }),
-            Animated.timing(state.container, { toValue: height, duration: 100 })
+            Animated.timing(state.opacity, { toValue: 0, duration: 300, useNativeDriver: true }),
+            Animated.timing(state.container, { toValue: height, duration: 100, useNativeDriver: true })
         ]).start()
     }
 
@@ -36,7 +36,8 @@ function Modal({ show, close, navigation}){
         } else {
             closeModal()
         }
-        console.disableYellowBox = true;
+        //console.disableYellowBox = true; Deprecated, substituído por
+        LogBox.ignoreAllLogs(true); // xD
     }, [show])
 
 
