@@ -1,5 +1,6 @@
-import React, { useState, useRef } from 'react';
-import { View, Text, SafeAreaView, StatusBar, StyleSheet, TouchableOpacity, Modal, Image, PermissionsAndroid, Platform, Video } from 'react-native';
+import React, { useState, useRef, useEffect } from 'react';
+import { View, Text, SafeAreaView, StatusBar, StyleSheet, TouchableOpacity, Modal, Image, PermissionsAndroid, Platform } from 'react-native';
+import Video from 'react-native-video';
 import { RNCamera } from 'react-native-camera'
 import CameraRoll from '@react-native-community/cameraroll';
 
@@ -15,66 +16,65 @@ export default function Camera() {
     const [cameraReady, setCameraReady] = useState(false)
     const cameraRef = useRef();
 
-    const onCameraReady = () =>{
+    useEffect(() => {
+        (async () => {
+
+            const { status } = await PermissionsAndroid.request(permission)
+            return status
+        })
+
+    }, [])
+
+    const onCameraReady = () => {
         setCameraReady(true)
     }
-    
+
+
+
     //teste para tirar foto
-    const takePickture = async() =>{
-        if(cameraRef.current){
-            const options = {quality: 0.5, base64: true};
+    const takePickture = async () => {
+        if (cameraRef.current) {
+            const options = { quality: 0.5, base64: true };
             const data = await cameraRef.current.takePictureAsync(options);
             const source = data.uri;
-            if(source){
-                await cameraRef.current.pausePreview();
-                setIsPreview(true);
-                setCapturaPhoto(source)
+            if (source) {
+                //await cameraRef.current.pausePreview();
+                //setIsPreview(true);
                 setModalOpen(true)
+                setCapturaPhoto(source)
                 savePicture(source)
                 console.log('picuture source', source)
             }
         }
     }
-    
-    
-    /* async function takePickture(camera) {
-        const options = { quality: 0.5, base64: true }
-        const data = await camera.takePictureAsync(options)
-        
-        setCapturaPhoto(data.uri)
-        setModalOpen(true)
-        console.log("Foto tirada Camera" + data.uri)
 
-        //Cahama function salvar
-        savePicture(data.uri)
-    } */
 
-    const recordVideo = async() => {
-        if(cameraRef.current){
-            try{
+    const recordVideo = async () => {
+        if (cameraRef.current) {
+            try {
                 const videoRecordingPromise = cameraRef.current.recordAsync();
 
-                if(videoRecordingPromise){
+                if (videoRecordingPromise) {
                     setVideoRecording(true);
                     const data = await videoRecordingPromise;
                     const source = data.uri;
 
-                    if(source){
+                    if (source) {
                         setIsPreview(true);
                         console.log('video source ', source)
-                        setVideoSource(source)
                         setModalOpen(true)
+                        setVideoSource(source)
                         savePicture(source)
                     }
                 }
-            } catch(err){
+            } catch (err) {
                 console.warn(err)
             }
         }
     }
 
-    const stopVideo = () =>{
-        if(cameraRef.current){
+    const stopVideo = () => {
+        if (cameraRef.current) {
             setIsPreview(false);
             setVideoRecording(false);
             cameraRef.current.stopRecording();
@@ -94,17 +94,17 @@ export default function Camera() {
     }
 
     async function savePicture(data) {
-        if (Platform.OS == 'android' && !(await hasAndroidPermission())){
+        if (Platform.OS == 'android' && !(await hasAndroidPermission())) {
             return;
         }
 
         CameraRoll.save(data, 'photo')
-        .then((res) =>{
-            console.log('Salvo com sucesso: ' + res)
-        })
-        .catch((err) => {
-            console.log('Erro ao salvar: ' + err)
-        })
+            .then((res) => {
+                console.log('Salvo com sucesso: ' + res)
+            })
+            .catch((err) => {
+                console.log('Erro ao salvar: ' + err)
+            })
     }
 
     return (
@@ -126,7 +126,7 @@ export default function Camera() {
                 }}
 
             >
-              
+
                 {({ camera, status, recordAudioPermissionStatus }) => {
                     if (status !== 'READY') return <View />
                     return (
@@ -137,17 +137,20 @@ export default function Camera() {
                             <TouchableOpacity onPress={recordVideo} style={styles.capture}>
                                 <Text>gravar</Text>
                             </TouchableOpacity>
+                            <TouchableOpacity onPress={stopVideo} style={styles.capture}>
+                                <Text>Parar</Text>
+                            </TouchableOpacity>
                         </View>
                     )
                 }}
             </RNCamera>
 
             {capturaPhoto &&
-                <Modal animationType="slide" transparent={false} visible={modalOpen} onRequestClose={() => setModalOpen(!modalOpen)}>
+                <Modal animationType="slide" transparent={false} visible={modalOpen}>
                     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
 
                         <Image
-                            resizeMethod="contain"
+                            
                             style={{ width: 350, height: 450, borderRadius: 15, marginLeft: 6, marginBottom: '4%' }}
                             source={{ uri: capturaPhoto }}
                         />
@@ -158,16 +161,11 @@ export default function Camera() {
                     </View>
                 </Modal>
             }
-            {videoRecording &&
+            {videoSource &&
                 <Modal animationType="slide" transparent={false} visible={modalOpen} onRequestClose={() => setModalOpen(!modalOpen)}>
                     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
 
-                        <Video
-                            resizeMethod="contain"
-                            style={{ width: 350, height: 450, borderRadius: 15, marginLeft: 6, marginBottom: '4%' }}
-                            source={{ uri: videoRecording }}
-                            shouldPlay={true}
-                        />
+                        
 
                         <TouchableOpacity style={{ backgroundColor: "#000", borderRadius: 5, width: '20%', height: '5%', justifyContent: 'center', alignItems: 'center' }} onPress={() => setModalOpen(!modalOpen)}>
                             <Text style={{ fontSize: 20, color: '#FFF', fontWeight: 'bold' }}>Fechar</Text>
