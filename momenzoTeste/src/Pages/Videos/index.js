@@ -1,49 +1,47 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { View, SafeAreaView, Text, StyleSheet, ScrollView, Image, TouchableOpacity } from 'react-native';
-import CameraRoll from '@react-native-community/cameraroll';
-import Camera from '../Camera';
-
-
+import { launchImageLibrary } from 'react-native-image-picker';
+import Video from 'react-native-video';
 
 
 export default function Videos() {
     const [videos, setVideos] = useState([])
     const [rolo, setRolo] = useState([])
+    
 
     useEffect(() => {
         //videosRoll()
+
     }, [])
 
     const videosRoll = () => {
-        CameraRoll.getPhotos({
-            first: 20,
-            assetType: 'All'
+        const options = {
+            title: 'Seleciona um video',
+            chooseFromLibraryButtonTitle: 'Buscar videos do album',
+            noData: true,
+            mediaType: 'photo'
+        }
+
+        launchImageLibrary(options, (response) => {
+            if (response.didCancel) {
+                console.log('Imagem Picker cancelado')
+            } else if (response.error) {
+                console.log('Gerou algum erro: ' + response.error)
+            } else {
+                setVideos(response.uri)
+            }
         })
-            .then(r => {
-                setVideos({ videos: r.edges })
-            })
-            .catch((err) => {
-                console.log('Erro' + err)
-            })
     }
     return (
         <View style={styles.container}>
+            <ScrollView>
+                <View style={styles.body}>
+                    <Text style={styles.text}>Não há videos em sua Galeria</Text>
+                    
+                    
 
-            <View style={styles.body}>
-                <Text style={styles.text}>Não há videos em sua Galeria</Text>
-                
-                {
-                    videos.map((i, p) => {
-                        return (
-                            <ScrollView>
-                                <Image key={i} style={{ width: 300, height: 100 }} source={{ uri: p.node.videos.uri }} />
-                            </ScrollView>
-                        )
-                    })
-                }
-
-            </View>
-
+                </View>
+            </ScrollView>
         </View>
     )
 }

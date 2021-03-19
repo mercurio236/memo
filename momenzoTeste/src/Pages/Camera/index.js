@@ -7,6 +7,7 @@ import CameraRoll from '@react-native-community/cameraroll';
 
 
 
+
 export default function Camera() {
 
     const [modalOpen, setModalOpen] = useState(false)
@@ -154,7 +155,7 @@ export default function Camera() {
                 }}
             </RNCamera>
 
-            {capturaPhoto &&
+            {/* capturaPhoto &&
                 <Modal animationType="slide" transparent={false} visible={modalOpen}>
                     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
 
@@ -168,7 +169,7 @@ export default function Camera() {
                             <Text style={{ fontSize: 20, color: '#FFF', fontWeight: 'bold' }}>Fechar</Text>
                         </TouchableOpacity>
                     </View>
-                </Modal>
+                </Modal> */
             }
             {videoSource &&
                 <Modal animationType="slide" transparent={false} visible={modalOpen} onRequestClose={() => setModalOpen(!modalOpen)}>
