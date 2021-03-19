@@ -40,6 +40,7 @@ function Modal({ show, close, navigation}){
         LogBox.ignoreAllLogs(true); // xD
     }, [show])
 
+   
 
     return (
         <Animated.View style={[styles.container, { opacity: state.opacity, transform: [{ translateY: state.container }] }]}>

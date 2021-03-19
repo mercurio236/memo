@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, SafeAreaView, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, SafeAreaView, StyleSheet, TouchableOpacity, ScrollView, StatusBar } from 'react-native';
 import Modal from '../Modal'
 
 function Home({ navigation }) {
@@ -7,6 +7,7 @@ function Home({ navigation }) {
     return (
 
         <View style={styles.container}>
+            <StatusBar hidden={true} />
             <View style={styles.body} >
             <ScrollView>
                 <Text style={{color:'#FFF', fontSize:20}}>Nenhum projeto encontrado</Text>

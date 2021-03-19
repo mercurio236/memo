@@ -17,6 +17,7 @@
     "@react-navigation/native": "^5.9.3",
     "@react-navigation/stack": "^5.14.3",
     "babel": "^6.23.0",
+    "lottie-ios": "3.1.8",
     "react": "16.13.1",
     "react-native": "0.63.4",
     "react-native-camera": "^3.43.0",
@@ -26,7 +27,9 @@
     "react-native-safe-area-context": "^3.2.0",
     "react-native-screens": "^2.18.1",
     "react-native-update-gradle": "^1.2.0",
-    "react-native-video": "^5.1.1"
+    "react-native-vector-icons": "^8.1.0",
+    "react-native-video": "^5.1.1",
+    "react-native-video-player": "^0.10.1"
   },
   "devDependencies": {
     "@babel/core": "^7.13.10",

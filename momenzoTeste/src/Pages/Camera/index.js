@@ -1,12 +1,13 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { View, Text, SafeAreaView, StatusBar, StyleSheet, TouchableOpacity, Modal, Image, PermissionsAndroid, Platform } from 'react-native';
 import Video from 'react-native-video';
+import VideoPlayer from 'react-native-video-player';
 import { RNCamera } from 'react-native-camera'
 import CameraRoll from '@react-native-community/cameraroll';
 
 
 
-export default function Camera() {
+export default function Camera({camera}) {
 
     const [modalOpen, setModalOpen] = useState(false)
     const [capturaPhoto, setCapturaPhoto] = useState(null)
@@ -15,6 +16,7 @@ export default function Camera() {
     const [videoSource, setVideoSource] = useState(null)
     const [cameraReady, setCameraReady] = useState(false)
     const cameraRef = useRef();
+    const video = useRef(null)
 
     useEffect(() => {
         (async () => {
@@ -61,7 +63,7 @@ export default function Camera() {
 
                     if (source) {
                         setIsPreview(true);
-                        console.log('video source ', source)
+                        console.log('video salvo ', source)
                         setModalOpen(true)
                         setVideoSource(source)
                         savePicture(source)
@@ -134,12 +136,21 @@ export default function Camera() {
                             <TouchableOpacity onPress={takePickture} style={styles.capture}>
                                 <Text>Tirar foto</Text>
                             </TouchableOpacity>
-                            <TouchableOpacity onPress={recordVideo} style={styles.capture}>
-                                <Text>gravar</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity onPress={stopVideo} style={styles.capture}>
-                                <Text>Parar</Text>
-                            </TouchableOpacity>
+
+                            {videoRecording === false ? (
+                                <TouchableOpacity onPress={recordVideo} style={styles.capture}>
+                                    <Text>gravar</Text>
+                                </TouchableOpacity>
+                            ) : (
+                                <TouchableOpacity onPress={stopVideo} style={styles.capture}>
+                                    <Text>Parar</Text>
+                                </TouchableOpacity>
+                            )
+
+                            }
+
+
+
                         </View>
                     )
                 }}
@@ -150,12 +161,12 @@ export default function Camera() {
                     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
 
                         <Image
-                            
-                            style={{ width: 350, height: 450, borderRadius: 15, marginLeft: 6, marginBottom: '4%' }}
+
+                            style={{ position: 'absolute', top: 0, left: 0, bottom: 0, right: 0 }}
                             source={{ uri: capturaPhoto }}
                         />
 
-                        <TouchableOpacity style={{ backgroundColor: "#000", borderRadius: 5, width: '20%', height: '5%', justifyContent: 'center', alignItems: 'center' }} onPress={() => setModalOpen(!modalOpen)}>
+                        <TouchableOpacity style={{ backgroundColor: "#131313", borderRadius: 5, width: '20%', height: '5%', justifyContent: 'center', alignItems: 'center', marginTop:'150%' }} onPress={() => setModalOpen(!modalOpen)}>
                             <Text style={{ fontSize: 20, color: '#FFF', fontWeight: 'bold' }}>Fechar</Text>
                         </TouchableOpacity>
                     </View>
@@ -165,7 +176,11 @@ export default function Camera() {
                 <Modal animationType="slide" transparent={false} visible={modalOpen} onRequestClose={() => setModalOpen(!modalOpen)}>
                     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
 
-                        
+                        <Video
+                            ref={video}
+                            source={{ uri: videoSource }}
+                            style={{ position: 'absolute', top: 0, left: 0, bottom: 0, right: 0 }}
+                        />
 
                         <TouchableOpacity style={{ backgroundColor: "#000", borderRadius: 5, width: '20%', height: '5%', justifyContent: 'center', alignItems: 'center' }} onPress={() => setModalOpen(!modalOpen)}>
                             <Text style={{ fontSize: 20, color: '#FFF', fontWeight: 'bold' }}>Fechar</Text>
