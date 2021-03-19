@@ -7,7 +7,7 @@ import CameraRoll from '@react-native-community/cameraroll';
 
 
 
-export default function Camera({camera}) {
+export default function Camera() {
 
     const [modalOpen, setModalOpen] = useState(false)
     const [capturaPhoto, setCapturaPhoto] = useState(null)
@@ -34,7 +34,7 @@ export default function Camera({camera}) {
 
 
     //teste para tirar foto
-    const takePickture = async () => {
+   /*  const takePickture = async () => {
         if (cameraRef.current) {
             const options = { quality: 0.5, base64: true };
             const data = await cameraRef.current.takePictureAsync(options);
@@ -48,7 +48,7 @@ export default function Camera({camera}) {
                 console.log('picuture source', source)
             }
         }
-    }
+    } */
 
 
     const recordVideo = async () => {
@@ -133,9 +133,7 @@ export default function Camera({camera}) {
                     if (status !== 'READY') return <View />
                     return (
                         <View style={{ marginBottom: 35, flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-between' }}>
-                            <TouchableOpacity onPress={takePickture} style={styles.capture}>
-                                <Text>Tirar foto</Text>
-                            </TouchableOpacity>
+                            
 
                             {videoRecording === false ? (
                                 <TouchableOpacity onPress={recordVideo} style={styles.capture}>
