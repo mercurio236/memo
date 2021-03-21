@@ -1,9 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { View, Text, SafeAreaView, StatusBar, StyleSheet, TouchableOpacity, Modal, Image, PermissionsAndroid, Platform } from 'react-native';
+import { View, Text, SafeAreaView, StatusBar, StyleSheet, TouchableOpacity, Modal, Image, PermissionsAndroid, Platform, TextInput } from 'react-native';
 import Video from 'react-native-video';
 import VideoPlayer from 'react-native-video-player';
 import { RNCamera } from 'react-native-camera'
 import CameraRoll from '@react-native-community/cameraroll';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 
@@ -11,13 +12,19 @@ import CameraRoll from '@react-native-community/cameraroll';
 export default function Camera() {
 
     const [modalOpen, setModalOpen] = useState(false)
-    const [capturaPhoto, setCapturaPhoto] = useState(null)
     const [videoRecording, setVideoRecording] = useState(false)
     const [isPreview, setIsPreview] = useState(false)
     const [videoSource, setVideoSource] = useState(null)
     const [cameraReady, setCameraReady] = useState(false)
+    const [saveVideos, setSaveVideo] = useState([]);
+
+
+
     const cameraRef = useRef();
     const video = useRef(null)
+    const STORAGE_KEY = '@save_video'
+   
+
 
     useEffect(() => {
         (async () => {
@@ -28,6 +35,29 @@ export default function Camera() {
 
     }, [])
 
+    const onSubmitEditing = () => {
+        if (!videoSource) return
+
+        videoSave(videoSource)
+        setSaveVideo([])
+    }
+
+    const videoSave = async () => {
+        let listVideos = {
+            id: new Date().getTime(),
+            uri: videoSource
+        }
+        
+        try {
+            await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(listVideos))
+            console.log('Storage salvo com sucesso')
+            console.log(JSON.stringify(listVideos))
+        } catch (e) {
+            console.log('Erro ao salvar ' + e)
+        }
+
+    }
+
     const onCameraReady = () => {
         setCameraReady(true)
     }
@@ -35,21 +65,21 @@ export default function Camera() {
 
 
     //teste para tirar foto
-   /*  const takePickture = async () => {
-        if (cameraRef.current) {
-            const options = { quality: 0.5, base64: true };
-            const data = await cameraRef.current.takePictureAsync(options);
-            const source = data.uri;
-            if (source) {
-                //await cameraRef.current.pausePreview();
-                //setIsPreview(true);
-                setModalOpen(true)
-                setCapturaPhoto(source)
-                savePicture(source)
-                console.log('picuture source', source)
-            }
-        }
-    } */
+    /*  const takePickture = async () => {
+         if (cameraRef.current) {
+             const options = { quality: 0.5, base64: true };
+             const data = await cameraRef.current.takePictureAsync(options);
+             const source = data.uri;
+             if (source) {
+                 //await cameraRef.current.pausePreview();
+                 //setIsPreview(true);
+                 setModalOpen(true)
+                 setCapturaPhoto(source)
+                 savePicture(source)
+                 console.log('picuture source', source)
+             }
+         }
+     } */
 
 
     const recordVideo = async () => {
@@ -67,12 +97,14 @@ export default function Camera() {
                         console.log('video salvo ', source)
                         setModalOpen(true)
                         setVideoSource(source)
-                        savePicture(source)
+                        
+                        
                     }
                 }
             } catch (err) {
                 console.warn(err)
             }
+            //setVideoSource(null)
         }
     }
 
@@ -134,7 +166,7 @@ export default function Camera() {
                     if (status !== 'READY') return <View />
                     return (
                         <View style={{ marginBottom: 35, flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-between' }}>
-                            
+
 
                             {videoRecording === false ? (
                                 <TouchableOpacity onPress={recordVideo} style={styles.capture}>
@@ -183,6 +215,24 @@ export default function Camera() {
 
                         <TouchableOpacity style={{ backgroundColor: "#000", borderRadius: 5, width: '20%', height: '5%', justifyContent: 'center', alignItems: 'center' }} onPress={() => setModalOpen(!modalOpen)}>
                             <Text style={{ fontSize: 20, color: '#FFF', fontWeight: 'bold' }}>Fechar</Text>
+                        </TouchableOpacity>
+
+
+                        <TouchableOpacity
+                            style={
+                                {
+                                    backgroundColor: "#000",
+                                    borderRadius: 5,
+                                    width: '20%',
+                                    height: '5%',
+                                    justifyContent: 'center',
+                                    alignItems: 'center'
+                                }
+                            }
+
+                            onPress={onSubmitEditing}
+                        >
+                            <Text style={{ fontSize: 20, color: '#FFF', fontWeight: 'bold' }}>Salvar</Text>
                         </TouchableOpacity>
                     </View>
                 </Modal>
