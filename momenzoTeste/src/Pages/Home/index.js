@@ -1,17 +1,60 @@
-import React, { useState } from 'react';
-import { View, Text, SafeAreaView, StyleSheet, TouchableOpacity, ScrollView, StatusBar } from 'react-native';
-import Modal from '../Modal'
+import React, { useState, useEffect } from 'react';
+import { View, Text, SafeAreaView, StyleSheet, TouchableOpacity, ScrollView, StatusBar, FlatList } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import Video from 'react-native-video';
+import Modal from '../Modal';
+
+
 
 function Home({ navigation }) {
     const [modal, setModal] = useState(false)
+    const [videos, setVideos] = useState([]);
+
+
+    const STORAGE_KEY = '@save_video';
+
+    useEffect(() => {
+        rollVideos()
+    }, [])
+
+    const clearData = async () => {
+        try {
+            await AsyncStorage.clear()
+            console.log('Async limpo com sucesso')
+        } catch (e) {
+            console.log('Erro ao limpar' + e)
+        }
+    }
+
+    async function rollVideos() {
+        try {
+            const userVideos = await AsyncStorage.getItem(STORAGE_KEY)
+            const selectVideo = JSON.parse(userVideos)
+            const { videos } = selectVideo
+
+            if (selectVideo !== null) {
+                setVideos(videos)
+            }
+        } catch (e) {
+            console.log(`Erro ao salvar: ${e}`)
+        }
+    }
+
     return (
 
         <View style={styles.container}>
             <StatusBar hidden={true} />
             <View style={styles.body} >
-            <ScrollView>
-                <Text style={{color:'#FFF', fontSize:20}}>Nenhum projeto encontrado</Text>
-            </ScrollView>
+                <ScrollView>
+                    <Text style={{ color: '#FFF', fontSize: 20 }}>Nenhum projeto encontrado</Text>
+                    <FlatList
+                    data={videos}
+                    keyExtractor={item => item.id}
+                    renderItem={({item}) => (
+                        <Text>{item.uri}</Text>
+                    )}
+                    />
+                </ScrollView>
 
 
                 <TouchableOpacity style={styles.btnAdd} onPress={() => setModal(true)}>
@@ -36,19 +79,19 @@ const styles = StyleSheet.create({
     body: {
         color: "#FFF",
         padding: 3,
-        margin:10,
-        justifyContent:'center',
-        flex:1,
-        alignItems:'center'
+        margin: 10,
+        justifyContent: 'center',
+        flex: 1,
+        alignItems: 'center'
     },
     btnAdd: {
         backgroundColor: '#FFF',
         width: 60,
         height: 60,
         borderRadius: 200,
-        justifyContent:'center',
-        alignItems:'center',
-        marginLeft:'80%'
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginLeft: '80%'
     }
 
 })

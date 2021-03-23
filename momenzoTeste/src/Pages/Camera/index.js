@@ -1,55 +1,89 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { View, Text, SafeAreaView, StatusBar, StyleSheet, TouchableOpacity, Modal, Image, PermissionsAndroid, Platform, TextInput } from 'react-native';
+import { View, Text, SafeAreaView, StatusBar, StyleSheet, TouchableOpacity, Modal, Image, PermissionsAndroid, Platform, Alert, ToastAndroid } from 'react-native';
 import Video from 'react-native-video';
 import VideoPlayer from 'react-native-video-player';
 import { RNCamera } from 'react-native-camera'
 import CameraRoll from '@react-native-community/cameraroll';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 
 
 
-export default function Camera() {
+
+export default function Camera({ navigation }) {
 
     const [modalOpen, setModalOpen] = useState(false)
     const [videoRecording, setVideoRecording] = useState(false)
     const [isPreview, setIsPreview] = useState(false)
     const [videoSource, setVideoSource] = useState(null)
     const [cameraReady, setCameraReady] = useState(false)
-    const [saveVideos, setSaveVideo] = useState([]);
+    const [saveVideos, setSaveVideo] = useState({ videos: [] });
+    const [capturaPhoto, setCapturaPhoto] = useState(null)
 
 
 
     const cameraRef = useRef();
     const video = useRef(null)
     const STORAGE_KEY = '@save_video'
-   
+
 
 
     useEffect(() => {
         (async () => {
-
             const { status } = await PermissionsAndroid.request(permission)
             return status
         })
 
     }, [])
 
-    const onSubmitEditing = () => {
-        if (!videoSource) return
+    const saveVideo = () => {
+        if (!saveVideos) return
+        videoSave(saveVideos)
+        Alert.alert('Video ', 'Deseja salvar o video em sua galeria?',
+            [
+                {
+                    text: 'Cancelar',
+                    style: 'cancel'
+                },
+                {
+                    text: 'Salvar',
+                    onPress: () => savePicture(videoSource) ? ToastAndroid.show("Salvo com sucesso", ToastAndroid.SHORT) : null
+                },
+                
+            ]
+        )
+        
+        //setSaveVideo(saveVideos)
+    }
 
-        videoSave(videoSource)
-        setSaveVideo([])
+    const savePic = () => {
+        Alert.alert('Foto ', 'Deseja salvar foto em sua galeria?',
+            [
+                {
+                    text: 'Cancelar',
+                    style: 'cancel'
+                },
+                {
+                    text: 'Salvar',
+                    onPress: () => savePicture(capturaPhoto) ? ToastAndroid.show("Salvo com sucesso", ToastAndroid.SHORT) : null
+                },
+                
+            ]
+        )
+
     }
 
     const videoSave = async () => {
+        let newVideo = { ...saveVideos }
         let listVideos = {
             id: new Date().getTime(),
             uri: videoSource
         }
-        
+        newVideo.videos.push(listVideos)
+
         try {
-            await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(listVideos))
+            await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(newVideo))
             console.log('Storage salvo com sucesso')
             console.log(JSON.stringify(listVideos))
         } catch (e) {
@@ -64,22 +98,21 @@ export default function Camera() {
 
 
 
-    //teste para tirar foto
-    /*  const takePickture = async () => {
-         if (cameraRef.current) {
-             const options = { quality: 0.5, base64: true };
-             const data = await cameraRef.current.takePictureAsync(options);
-             const source = data.uri;
-             if (source) {
-                 //await cameraRef.current.pausePreview();
-                 //setIsPreview(true);
-                 setModalOpen(true)
-                 setCapturaPhoto(source)
-                 savePicture(source)
-                 console.log('picuture source', source)
-             }
-         }
-     } */
+    //Tirar foto
+    const takePickture = async () => {
+        if (cameraRef.current) {
+            const options = { quality: 0.5, base64: true };
+            const data = await cameraRef.current.takePictureAsync(options);
+            const source = data.uri;
+            if (source) {
+                //await cameraRef.current.pausePreview();
+                //setIsPreview(true);
+                setModalOpen(true)
+                setCapturaPhoto(source)
+                console.log('picuture source', source)
+            }
+        }
+    }
 
 
     const recordVideo = async () => {
@@ -97,14 +130,11 @@ export default function Camera() {
                         console.log('video salvo ', source)
                         setModalOpen(true)
                         setVideoSource(source)
-                        
-                        
                     }
                 }
             } catch (err) {
                 console.warn(err)
             }
-            //setVideoSource(null)
         }
     }
 
@@ -116,6 +146,7 @@ export default function Camera() {
         }
     }
 
+    //autorização para salvar no dispositivo
     async function hasAndroidPermission() {
         const permission = PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE;
 
@@ -128,6 +159,7 @@ export default function Camera() {
         return status == 'granted';
     }
 
+    //Dispara a function para salvar no dispositivo
     async function savePicture(data) {
         if (Platform.OS == 'android' && !(await hasAndroidPermission())) {
             return;
@@ -165,44 +197,53 @@ export default function Camera() {
                 {({ camera, status, recordAudioPermissionStatus }) => {
                     if (status !== 'READY') return <View />
                     return (
-                        <View style={{ marginBottom: 35, flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-between' }}>
+                        <View>
+                            <TouchableOpacity style={styles.back} onPress={() => navigation.navigate('Projects')}>
+                                <Icon name="arrow-left" color="#FFF" size={40} />
+                            </TouchableOpacity>
 
+                            <View style={{ marginBottom: 5, flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-between', marginLeft: 80 }}>
+                                {videoRecording === false ? (
+                                    <TouchableOpacity onPress={recordVideo} style={styles.capture}>
+                                        <Icon name="circle" color="#FFF" size={70} />
+                                    </TouchableOpacity>
+                                ) : (
+                                    <TouchableOpacity onPress={stopVideo} style={styles.capture}>
+                                        <Icon name="stop" color="red" size={70} />
+                                    </TouchableOpacity>
+                                )
 
-                            {videoRecording === false ? (
-                                <TouchableOpacity onPress={recordVideo} style={styles.capture}>
-                                    <Text>gravar</Text>
+                                }
+                                <TouchableOpacity style={styles.capture} onPress={takePickture}>
+                                    <Icon name="camera" size={40} color="#FFF" />
                                 </TouchableOpacity>
-                            ) : (
-                                <TouchableOpacity onPress={stopVideo} style={styles.capture}>
-                                    <Text>Parar</Text>
-                                </TouchableOpacity>
-                            )
-
-                            }
-
-
-
+                            </View>
                         </View>
                     )
                 }}
             </RNCamera>
 
-            {/* capturaPhoto &&
+            {capturaPhoto &&
                 <Modal animationType="slide" transparent={false} visible={modalOpen}>
                     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
 
                         <Image
-
                             style={{ position: 'absolute', top: 0, left: 0, bottom: 0, right: 0 }}
                             source={{ uri: capturaPhoto }}
                         />
 
-                        <TouchableOpacity style={{ backgroundColor: "#131313", borderRadius: 5, width: '20%', height: '5%', justifyContent: 'center', alignItems: 'center', marginTop:'150%' }} onPress={() => setModalOpen(!modalOpen)}>
-                            <Text style={{ fontSize: 20, color: '#FFF', fontWeight: 'bold' }}>Fechar</Text>
+                        <TouchableOpacity style={styles.btnFechar} onPress={() => setModalOpen(!modalOpen)}>
+                            <Text style={{ fontSize: 20, flex: 1, justifyContent: 'center', alignItems: 'center', margin: 5, marginTop: -6 }}></Text>
+                            <Icon name="times" size={40} color="#FFF" />
+                        </TouchableOpacity>
+
+                        <TouchableOpacity style={styles.btnSalvar} onPress={savePic}>
+                            <Icon name="save" size={40} style={{ top: -5 }} />
                         </TouchableOpacity>
                     </View>
-                </Modal> */
+                </Modal>
             }
+
             {videoSource &&
                 <Modal animationType="slide" transparent={false} visible={modalOpen} onRequestClose={() => setModalOpen(!modalOpen)}>
                     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
@@ -213,26 +254,14 @@ export default function Camera() {
                             style={{ position: 'absolute', top: 0, left: 0, bottom: 0, right: 0 }}
                         />
 
-                        <TouchableOpacity style={{ backgroundColor: "#000", borderRadius: 5, width: '20%', height: '5%', justifyContent: 'center', alignItems: 'center' }} onPress={() => setModalOpen(!modalOpen)}>
-                            <Text style={{ fontSize: 20, color: '#FFF', fontWeight: 'bold' }}>Fechar</Text>
+                        <TouchableOpacity style={styles.btnFechar} onPress={() => setModalOpen(!modalOpen)}>
+                            <Text style={{ fontSize: 20, flex: 1, justifyContent: 'center', alignItems: 'center', margin: 5, marginTop: -6 }}></Text>
+                            <Icon name="times" size={40} color="#FFF" />
                         </TouchableOpacity>
 
 
-                        <TouchableOpacity
-                            style={
-                                {
-                                    backgroundColor: "#000",
-                                    borderRadius: 5,
-                                    width: '20%',
-                                    height: '5%',
-                                    justifyContent: 'center',
-                                    alignItems: 'center'
-                                }
-                            }
-
-                            onPress={onSubmitEditing}
-                        >
-                            <Text style={{ fontSize: 20, color: '#FFF', fontWeight: 'bold' }}>Salvar</Text>
+                        <TouchableOpacity style={styles.btnSalvar} onPress={saveVideo}>
+                            <Icon name="save" size={40} style={{ top: -5 }} />
                         </TouchableOpacity>
                     </View>
                 </Modal>
@@ -253,11 +282,33 @@ const styles = StyleSheet.create({
     },
     capture: {
         flex: 0,
-        backgroundColor: '#FFF',
         borderRadius: 5,
         padding: 15,
         paddingHorizontal: 20,
         alignSelf: 'center',
-        margin: 20
+        marginLeft: 30
+    },
+    btnFechar: {
+        borderRadius: 25,
+        padding: 10,
+        height: 40,
+        position: 'absolute',
+        right: 15,
+        top: 10
+    },
+    btnSalvar: {
+        backgroundColor: '#FFF',
+        borderRadius: 5,
+        padding: 10,
+        height: 50,
+        position: 'absolute',
+        right: 25,
+        top: 750,
+    },
+    back: {
+        padding: 10,
+        position: 'absolute',
+        top: -720,
+        right: 303
     }
 })

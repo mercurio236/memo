@@ -39,13 +39,13 @@ export default function Videos() {
         try {
             const userVideo = await AsyncStorage.getItem(STORAGE_KEY)
             const v = JSON.parse(userVideo)
-
+            const {videos} = v
             if (v !== null) {
-                setRolo([v])
-                console.log(userVideo)
+                setRolo(videos)
+                console.log(videos)
             }
         } catch (e) {
-            console.log('Erro ao consultar' + e)
+            console.log('Erro ao consultar ' + e)
         }
     }
 
@@ -118,12 +118,20 @@ export default function Videos() {
                         )}
                     />
 
+                    {rolo.map((v, i) =>(
+                        <View>
+
+                            <Text>{v.uri}</Text>
+                            <Text>{v.id}</Text>
+                        </View>
+                    ))}
+
 
 
 
 
                     <TouchableOpacity onPress={clearData}>
-                        <Text>Limpar Storage</Text>
+                        <Text style={{color:'#FFF'}}>Limpar Storage</Text>
                     </TouchableOpacity>
 
                 </View>
