@@ -9,8 +9,6 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 
 
 
-
-
 export default function Camera({ navigation }) {
 
     const [modalOpen, setModalOpen] = useState(false)
@@ -20,8 +18,7 @@ export default function Camera({ navigation }) {
     const [cameraReady, setCameraReady] = useState(false)
     const [saveVideos, setSaveVideo] = useState({ videos: [] });
     const [capturaPhoto, setCapturaPhoto] = useState(null)
-
-
+ 
 
     const cameraRef = useRef();
     const video = useRef(null)
@@ -48,12 +45,12 @@ export default function Camera({ navigation }) {
                 },
                 {
                     text: 'Salvar',
-                    onPress: () => savePicture(videoSource) ? ToastAndroid.show("Salvo com sucesso", ToastAndroid.SHORT) : null
+                    onPress: () => savePicture(videoSource) ? ToastAndroid.show("Salvo com sucesso", ToastAndroid.SHORT) : ToastAndroid.show("Erro ao salvar video", ToastAndroid.SHORT)
                 },
-                
+
             ]
         )
-        
+
         //setSaveVideo(saveVideos)
     }
 
@@ -66,9 +63,9 @@ export default function Camera({ navigation }) {
                 },
                 {
                     text: 'Salvar',
-                    onPress: () => savePicture(capturaPhoto) ? ToastAndroid.show("Salvo com sucesso", ToastAndroid.SHORT) : null
+                    onPress: () => savePicture(capturaPhoto) ? ToastAndroid.show("Salvo com sucesso", ToastAndroid.SHORT) : ToastAndroid.show("Erro ao salvar imagem", ToastAndroid.SHORT)
                 },
-                
+
             ]
         )
 
@@ -118,7 +115,8 @@ export default function Camera({ navigation }) {
     const recordVideo = async () => {
         if (cameraRef.current) {
             try {
-                const videoRecordingPromise = cameraRef.current.recordAsync();
+                const options = {quality: 1, base64: true}
+                const videoRecordingPromise = cameraRef.current.recordAsync(options);
 
                 if (videoRecordingPromise) {
                     setVideoRecording(true);
@@ -174,6 +172,9 @@ export default function Camera({ navigation }) {
             })
     }
 
+
+
+
     return (
 
         <View style={styles.container}>
@@ -181,10 +182,15 @@ export default function Camera({ navigation }) {
             <StatusBar hidden={true} />
             <RNCamera
                 ref={cameraRef}
+                playSoundOnCapture={true}
                 style={styles.preview}
+                defaultVideoQuality={RNCamera.Constants.VideoQuality['720p']}
+                
                 type={RNCamera.Constants.Type.back}
                 flashMode={RNCamera.Constants.FlashMode.auto}
                 autoFocus={RNCamera.Constants.AutoFocus.on}
+                ratio="8:4"
+                focusDepth={1}
                 androidCameraPermissionOptions={{
                     title: 'Permissão para usar a camera',
                     message: 'é necessáro autorização para o uso da camera',
@@ -199,7 +205,7 @@ export default function Camera({ navigation }) {
                     return (
                         <View>
                             <TouchableOpacity style={styles.back} onPress={() => navigation.navigate('Projects')}>
-                                <Icon name="arrow-left" color="#FFF" size={40} />
+                                <Icon name="arrow-left" color="#FFF" size={30} />
                             </TouchableOpacity>
 
                             <View style={{ marginBottom: 5, flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-between', marginLeft: 80 }}>
@@ -223,49 +229,57 @@ export default function Camera({ navigation }) {
                 }}
             </RNCamera>
 
-            {capturaPhoto &&
-                <Modal animationType="slide" transparent={false} visible={modalOpen}>
-                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+           
 
-                        <Image
-                            style={{ position: 'absolute', top: 0, left: 0, bottom: 0, right: 0 }}
-                            source={{ uri: capturaPhoto }}
-                        />
+            {
+                
+                capturaPhoto &&
+                    <Modal name="modalFoto" animationType="slide" transparent={false} visible={modalOpen}>
+                        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
 
-                        <TouchableOpacity style={styles.btnFechar} onPress={() => setModalOpen(!modalOpen)}>
-                            <Text style={{ fontSize: 20, flex: 1, justifyContent: 'center', alignItems: 'center', margin: 5, marginTop: -6 }}></Text>
-                            <Icon name="times" size={40} color="#FFF" />
-                        </TouchableOpacity>
+                            <Image
+                                style={{ position: 'absolute', top: 0, left: 0, bottom: 0, right: 0 }}
+                                source={{ uri: capturaPhoto }}
+                            />
 
-                        <TouchableOpacity style={styles.btnSalvar} onPress={savePic}>
-                            <Icon name="save" size={40} style={{ top: -5 }} />
-                        </TouchableOpacity>
-                    </View>
-                </Modal>
+                            <TouchableOpacity style={styles.btnFechar} onPress={() => setModalOpen(!modalOpen)}>
+                                <Text style={{ fontSize: 20, flex: 1, justifyContent: 'center', alignItems: 'center', margin: 5, marginTop: -6 }}></Text>
+                                <Icon name="times" size={40} color="#FFF" />
+                            </TouchableOpacity>
+
+                            <TouchableOpacity style={styles.btnSalvar} onPress={savePic}>
+                                <Icon name="save" size={40} style={{ top: -5 }} />
+                            </TouchableOpacity>
+                        </View>
+                    </Modal> 
+                    
+                    
+                    ||
+                    
+                    
+                    videoSource &&
+                    <Modal name="modalVideo" animationType="slide" transparent={false} visible={modalOpen}>
+                        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+
+                            <Video
+                                ref={video}
+                                source={{ uri: videoSource }}
+                                style={{ position: 'absolute', top: 0, left: 0, bottom: 0, right: 0 }}
+                            />
+
+                            <TouchableOpacity style={styles.btnFechar} onPress={() => setModalOpen(!modalOpen)}>
+                                <Text style={{ fontSize: 20, flex: 1, justifyContent: 'center', alignItems: 'center', margin: 5, marginTop: -6 }}></Text>
+                                <Icon name="times" size={40} color="#FFF" />
+                            </TouchableOpacity>
+
+
+                            <TouchableOpacity style={styles.btnSalvar} onPress={saveVideo}>
+                                <Icon name="save" size={40} style={{ top: -5 }} />
+                            </TouchableOpacity>
+                        </View>
+                    </Modal>
             }
 
-            {videoSource &&
-                <Modal animationType="slide" transparent={false} visible={modalOpen} onRequestClose={() => setModalOpen(!modalOpen)}>
-                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-
-                        <Video
-                            ref={video}
-                            source={{ uri: videoSource }}
-                            style={{ position: 'absolute', top: 0, left: 0, bottom: 0, right: 0 }}
-                        />
-
-                        <TouchableOpacity style={styles.btnFechar} onPress={() => setModalOpen(!modalOpen)}>
-                            <Text style={{ fontSize: 20, flex: 1, justifyContent: 'center', alignItems: 'center', margin: 5, marginTop: -6 }}></Text>
-                            <Icon name="times" size={40} color="#FFF" />
-                        </TouchableOpacity>
-
-
-                        <TouchableOpacity style={styles.btnSalvar} onPress={saveVideo}>
-                            <Icon name="save" size={40} style={{ top: -5 }} />
-                        </TouchableOpacity>
-                    </View>
-                </Modal>
-            }
         </View>
     )
 }
