@@ -3,12 +3,20 @@ import { View, Text, SafeAreaView, StyleSheet, TouchableOpacity, ScrollView, Sta
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Video from 'react-native-video';
 import Modal from '../Modal';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import ListaVideos from '../Home/listaVideos';
 
 
 
 function Home({ navigation }) {
     const [modal, setModal] = useState(false)
     const [videos, setVideos] = useState([]);
+    const [listVideo, setListVideo] = useState([
+        { id: '1', title: 'video 1', date:'20/04/2021', hora:'15:11' },
+        { id: '2', title: 'video 2', date:'20/04/2021', hora:'15:12' },
+        { id: '3', title: 'video 3', date:'20/04/2021', hora:'15:13' },
+        { id: '4', title: 'video 4', date:'20/04/2021', hora:'15:14' },
+    ])
 
 
     const STORAGE_KEY = '@save_video';
@@ -45,20 +53,16 @@ function Home({ navigation }) {
         <View style={styles.container}>
             <StatusBar hidden={true} />
             <View style={styles.body} >
-                <ScrollView>
-                    <Text style={{ color: '#FFF', fontSize: 20 }}>Nenhum projeto encontrado</Text>
-                    <FlatList
-                    data={videos}
-                    keyExtractor={item => item.id}
-                    renderItem={({item}) => (
-                        <Text>{item.uri}</Text>
-                    )}
-                    />
-                </ScrollView>
 
+                <FlatList
+                    data={listVideo}
+                    keyExtractor={item => item.id}
+                    renderItem={({ item }) => <ListaVideos data={item} /> }
+                    
+                />
 
                 <TouchableOpacity style={styles.btnAdd} onPress={() => setModal(true)}>
-                    <Text style={{ fontSize: 40 }}>+</Text>
+                    <Icon name="plus" size={30} />
                 </TouchableOpacity>
             </View>
             <Modal show={modal} close={() => setModal(false)} navigation={navigation} />
