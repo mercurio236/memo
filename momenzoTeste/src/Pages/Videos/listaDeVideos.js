@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, StyleSheet, Image } from 'react-native';
-import Home from '../Home';
 
-export default function ListaVideos({ data }) {
+export default function ListaDeVideos({ data }) {
 
 
 

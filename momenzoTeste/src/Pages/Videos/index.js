@@ -3,6 +3,7 @@ import { View, SafeAreaView, Text, StyleSheet, ScrollView, Image, TouchableOpaci
 import { launchImageLibrary } from 'react-native-image-picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Video from 'react-native-video';
+import ListaDeVideos from '../Videos/listaDeVideos';
 
 
 
@@ -11,7 +12,7 @@ import Video from 'react-native-video';
 
 export default function Videos() {
     const [videos, setVideos] = useState([])
-    const [rolo, setRolo] = useState([])
+    const [rolo, setRolo] = useState([{id:'1', title:'Video 1', date:'20/04/2021', hora:'15:20'}])
 
     const STORAGE_KEY = '@save_video'
 
@@ -102,33 +103,8 @@ export default function Videos() {
                     <FlatList
                         data={rolo}
                         keyExtractor={item => item.id}
-                        renderItem={({ item }) => (
-                            <Video
-                                style={
-                                    {
-                                        width: 350,
-                                        height: 700,
-                                        borderRadius: 15,
-                                        marginLeft: 6,
-                                        marginBottom: '4%'
-                                    }
-                                }
-                                source={{ uri: item.uri }}
-                            />
-                        )}
+                        renderItem={({ item }) => <ListaDeVideos data={item}/> }
                     />
-
-                    {rolo.map((v, i) =>(
-                        <View>
-
-                            <Text>{v.uri}</Text>
-                            <Text>{v.id}</Text>
-                        </View>
-                    ))}
-
-
-
-
 
                     <TouchableOpacity onPress={clearData}>
                         <Text style={{color:'#FFF'}}>Limpar Storage</Text>

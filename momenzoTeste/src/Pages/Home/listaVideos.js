@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, StyleSheet, Image } from 'react-native';
-import Home from '../Home';
+
 
 export default function ListaVideos({ data }) {
 
@@ -12,7 +12,7 @@ export default function ListaVideos({ data }) {
             {
                 data !== null ?
 
-                    <TouchableOpacity style={styles.listaVideos} onPress={() => { }}>
+                    <TouchableOpacity style={styles.listaVideos} onPress={() => alert('Clicou ' + data.id)}>
                         <Image style={styles.img} source={{ uri: 'https://reactnative.dev/img/tiny_logo.png' }} />
                         <View style={styles.textPosition}>
                             <Text style={{ color: '#FFF', fontSize: 20 }}>Titulo: {data.title}</Text>

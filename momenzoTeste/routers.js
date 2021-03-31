@@ -11,6 +11,7 @@ import Home from './src/Pages/Home';
 import Settings from './src/Pages/Settings';
 import Videos from './src/Pages/Videos';
 import Cam from './src/Pages/Camera';
+import CameraPro from './src/Pages/CameraPro';
 
 
 function Router(){
@@ -18,6 +19,7 @@ function Router(){
         <Stack.Navigator initialRouteName="Rota">
             <Stack.Screen name="Rota" component={RouterSecundaria} options={{headerShown:false}}/>
             <Stack.Screen name="Camera" component={Cam} options={{headerShown:false}}/>
+            <Stack.Screen name="CameraPro" component={CameraPro} options={{headerShown: false}}/>
         </Stack.Navigator>
     )
 }

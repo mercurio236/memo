@@ -53,7 +53,7 @@ function Modal({ show, close, navigation}){
                     </TouchableOpacity>
 
                     
-                    <TouchableOpacity style={styles.btnPro}>
+                    <TouchableOpacity style={styles.btnPro} onPress={() => navigation.push('CameraPro')}>
                         <Text style={{ color: '#FFF' }}>Profissional</Text>
                     </TouchableOpacity>
                 </View>
