@@ -1,5 +1,19 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { View, Text, SafeAreaView, StatusBar, StyleSheet, TouchableOpacity, Modal, Image, PermissionsAndroid, Platform, Alert, ToastAndroid } from 'react-native';
+import { 
+    View, 
+    Text, 
+    SafeAreaView, 
+    StatusBar, 
+    StyleSheet, 
+    TouchableOpacity, 
+    Modal, 
+    Image, 
+    PermissionsAndroid, 
+    Platform, 
+    Alert, 
+    ToastAndroid
+
+} from 'react-native';
 import Video from 'react-native-video';
 import VideoPlayer from 'react-native-video-player';
 import { RNCamera } from 'react-native-camera'
