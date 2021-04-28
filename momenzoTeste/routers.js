@@ -7,6 +7,8 @@ import { createStackNavigator } from '@react-navigation/stack'
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
 
+import Login from './src/Pages/Login';
+import Cadastro from './src/Pages/Cadastro';
 import Home from './src/Pages/Home';
 import Settings from './src/Pages/Settings';
 import Videos from './src/Pages/Videos';
@@ -16,7 +18,9 @@ import CameraPro from './src/Pages/CameraPro';
 
 function Router(){
     return(
-        <Stack.Navigator initialRouteName="Rota">
+        <Stack.Navigator initialRouteName="Login">
+            <Stack.Screen name="Login" component={Login} options={{headerShown:false}}/>
+            <Stack.Screen name="Cadastro" component={Cadastro}/>
             <Stack.Screen name="Rota" component={RouterSecundaria} options={{headerShown:false}}/>
             <Stack.Screen name="Camera" component={Cam} options={{headerShown:false}}/>
             <Stack.Screen name="CameraPro" component={CameraPro} options={{headerShown: false}}/>
