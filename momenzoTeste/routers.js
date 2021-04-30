@@ -1,7 +1,9 @@
-import React from 'react';
+import React,{useContext} from 'react';
 import { View, Text } from 'react-native'
 import { createDrawerNavigator, DrawerItem } from '@react-navigation/drawer';
-import { createStackNavigator } from '@react-navigation/stack'
+import { createStackNavigator } from '@react-navigation/stack';
+
+import {AuthContext} from './src/Pages/Context/auth';
 
 
 const Drawer = createDrawerNavigator();
@@ -20,7 +22,7 @@ function Router(){
     return(
         <Stack.Navigator initialRouteName="Login">
             <Stack.Screen name="Login" component={Login} options={{headerShown:false}}/>
-            <Stack.Screen name="Cadastro" component={Cadastro}/>
+            <Stack.Screen name="Cadastro" component={Cadastro} options={{headerTintColor:'#FFF', headerStyle:{ backgroundColor:'#734AE9'}}}/>
             <Stack.Screen name="Rota" component={RouterSecundaria} options={{headerShown:false}}/>
             <Stack.Screen name="Camera" component={Cam} options={{headerShown:false}}/>
             <Stack.Screen name="CameraPro" component={CameraPro} options={{headerShown: false}}/>
@@ -34,7 +36,7 @@ function RouterSecundaria() {
     return (
         <Drawer.Navigator initialRouteName="Home"
             drawerStyle={{
-                backgroundColor: '#171717',
+                backgroundColor: '#1B0067',
             }}
 
             drawerContentOptions={{
@@ -42,8 +44,8 @@ function RouterSecundaria() {
                     fontWeight: 'bold'
                 },
                 activeTintColor: '#FFF',
-                activeBackgroundColor: '#00b94a',
-                inactiveBackgroundColor: '#000',
+                activeBackgroundColor: '#557EE7',
+                inactiveBackgroundColor: '#0F0136',
                 inactiveTintColor: '#DDD',
                 itemStyle: {
                     marginVertical: 5,
@@ -52,9 +54,9 @@ function RouterSecundaria() {
             }}>
 
 
-            <Drawer.Screen name="Projects" component={Home} options={{ headerShown: true, headerTintColor: '#000' }} />
-            <Drawer.Screen name="Videos" component={Videos} options={{ headerShown: true, headerTintColor: '#000' }} />
-            <Drawer.Screen name="Settings" component={Settings} options={{ headerShown: true, headerTintColor: '#000' }} />
+            <Drawer.Screen name="Projects" component={Home} options={{ headerShown: true, headerTintColor:'#FFF', headerStyle:{ backgroundColor:'#734AE9'}}} />
+            <Drawer.Screen name="Videos" component={Videos} options={{ headerShown: true, headerTintColor:'#FFF', headerStyle:{ backgroundColor:'#734AE9'}}} />
+            <Drawer.Screen name="Settings" component={Settings} options={{ headerShown: true, headerTintColor:'#FFF', headerStyle:{ backgroundColor:'#734AE9'}}} />
         </Drawer.Navigator>
     )
 }

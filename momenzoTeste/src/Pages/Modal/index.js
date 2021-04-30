@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Animated, Dimensions, Button, LogBox } from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
 
 
 const { height } = Dimensions.get('window');
@@ -45,6 +46,7 @@ function Modal({ show, close, navigation}){
     return (
         <Animated.View style={[styles.container, { opacity: state.opacity, transform: [{ translateY: state.container }] }]}>
             <Animated.View style={[styles.modal, { transform: [{ translateY: state.modal }] }]}>
+            <LinearGradient colors={['#0BFFE3', '#557EE7', '#9B05EB']} start={{ x: -2, y: 0 }} end={{ x: 1.4, y: 1 }} style={{ flex: 1, padding: 10, width:'117%', marginLeft:'-9%', borderRadius:20 }}>
                 <View style={styles.indicador} />
 
                 <View style={styles.dir}>
@@ -61,8 +63,8 @@ function Modal({ show, close, navigation}){
                 <TouchableOpacity style={styles.btn} onPress={close}>
                     <Text style={{ color: '#FFF' }}>Fechar</Text>
                 </TouchableOpacity>
+            </LinearGradient>
             </Animated.View>
-
         </Animated.View>
     )
 }

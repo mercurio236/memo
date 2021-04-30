@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
-import { Picker } from '@react-native-picker/picker';
+import { Picker as RNPickerSelect } from '@react-native-picker/picker';
+import { PickerView } from './styles';
 import { View, Text, SafeAreaView, StyleSheet, Switch } from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
 
 export default function Settings() {
     const [qualidade, setQualidade] = useState();
@@ -12,17 +14,21 @@ export default function Settings() {
 
     return (
         <SafeAreaView style={styles.container}>
+            <LinearGradient colors={['#0BFFE3', '#557EE7', '#9B05EB']} start={{ x: -2, y: 0 }} end={{ x: 1.4, y: 1 }} style={{ flex: 1 }}>
             <View style={styles.body}>
                 <Text style={styles.text}>Qualidade do Video</Text>
-                <Picker
-                    style={styles.picker}
-                    selectedValue={qualidade}
-                    onValueChange={(itemValue, itemIndex) =>
-                        setQualidade(itemValue)
-                    }>
-                    <Picker.Item label="780" value="780" />
-                    <Picker.Item label="1080" value="1080" />
-                </Picker>
+                <PickerView>
+                    <RNPickerSelect
+                        style={{
+                            width: '100%'
+                        }}
+                        selectedValue={qualidade}
+                        onValueChange={(valor) => setQualidade(valor)}
+                    >
+                        <RNPickerSelect.Item label="720p" value="720p" />
+                        <RNPickerSelect.Item label="1080p" value="1080p" />
+                    </RNPickerSelect>
+                </PickerView>
 
                 <View style={{ flexDirection: 'row' }}>
                     <Text style={styles.text}>Estabilazação de Video</Text>
@@ -42,6 +48,7 @@ export default function Settings() {
                     />
                 </View>
             </View>
+            </LinearGradient>
         </SafeAreaView>
     )
 }

@@ -33,7 +33,7 @@ export default function ListaDeVideos({ data }) {
 
 const styles = StyleSheet.create({
     listaVideos: {
-        backgroundColor: '#FFF',
+        backgroundColor: '#1B0067',
         width: 360,
         marginBottom: 10,
         height: 100,

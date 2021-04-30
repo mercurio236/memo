@@ -4,7 +4,7 @@ import { launchImageLibrary } from 'react-native-image-picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Video from 'react-native-video';
 import ListaDeVideos from '../Videos/listaDeVideos';
-
+import LinearGradient from 'react-native-linear-gradient';
 
 
 
@@ -96,6 +96,7 @@ export default function Videos() {
 
     return (
         <View style={styles.container}>
+             <LinearGradient colors={['#0BFFE3', '#557EE7', '#9B05EB']} start={{ x: -2, y: 0 }} end={{ x: 1.4, y: 1 }} style={{ flex: 1 }}>
             <ScrollView style={{ flex: 1 }}>
                 <View style={styles.body}>
                     <Text style={styles.text}>Não há videos em sua Galeria </Text>
@@ -112,6 +113,7 @@ export default function Videos() {
 
                 </View>
             </ScrollView>
+            </LinearGradient>
         </View>
     )
 }

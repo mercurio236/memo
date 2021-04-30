@@ -5,17 +5,20 @@ import Video from 'react-native-video';
 import Modal from '../Modal';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import ListaVideos from '../Home/listaVideos';
+import firebase from '../Services/firebaseConnection';
+import LinearGradient from 'react-native-linear-gradient';
 
 
 
 function Home({ navigation }) {
     const [modal, setModal] = useState(false)
     const [videos, setVideos] = useState([]);
+    const [user, setUser] = useState(null)
     const [listVideo, setListVideo] = useState([
-        { id: '1', title: 'video 1', date:'20/04/2021', hora:'15:11' },
-        { id: '2', title: 'video 2', date:'20/04/2021', hora:'15:12' },
-        { id: '3', title: 'video 3', date:'20/04/2021', hora:'15:13' },
-        { id: '4', title: 'video 4', date:'20/04/2021', hora:'15:14' },
+        { id: '1', title: 'video 1', date: '20/04/2021', hora: '15:11' },
+        { id: '2', title: 'video 2', date: '20/04/2021', hora: '15:12' },
+        { id: '3', title: 'video 3', date: '20/04/2021', hora: '15:13' },
+        { id: '4', title: 'video 4', date: '20/04/2021', hora: '15:14' },
     ])
 
 
@@ -23,7 +26,34 @@ function Home({ navigation }) {
 
     useEffect(() => {
         rollVideos()
+
+        async function usuarioLogado() {
+            await firebase.database().ref('users').child(uid).once('value')
+                .then((snapshot) => {
+                    let data = {
+                        uid: uid,
+                        nome: snapshot.val().nome,
+                        email: value.user.email
+                    }
+                    setUser(data);
+                })
+        }
+        usuarioLogado()
+        console.log(user)
     }, [])
+
+    async function sair() {
+        await firebase.auth().signOut().
+            then((res) => {
+                navigation.navigate('Login')
+                console.log('saiu')
+            }
+            )
+            .catch((err) => {
+                console.log('Erro ao sair: ' + err)
+            })
+
+    }
 
     const clearData = async () => {
         try {
@@ -52,20 +82,26 @@ function Home({ navigation }) {
 
         <View style={styles.container}>
             <StatusBar hidden={true} />
-            <View style={styles.body} >
+            <LinearGradient colors={['#0BFFE3', '#557EE7', '#9B05EB']} start={{ x: -2, y: 0 }} end={{ x: 1.4, y: 1 }} style={styles.linearGradient}>
+                <View style={styles.body} >
 
-                <FlatList
-                    data={listVideo}
-                    keyExtractor={item => item.id}
-                    renderItem={({ item }) => <ListaVideos data={item} /> }
-                    
-                />
+                    <FlatList
+                        data={listVideo}
+                        keyExtractor={item => item.id}
+                        renderItem={({ item }) => <ListaVideos data={item} />}
 
-                <TouchableOpacity style={styles.btnAdd} onPress={() => setModal(true)}>
-                    <Icon name="plus" size={30} />
-                </TouchableOpacity>
-            </View>
-            <Modal show={modal} close={() => setModal(false)} navigation={navigation} />
+                    />
+                    <Text>{user}</Text>
+                    <TouchableOpacity onPress={sair}>
+                        <Text>Sair</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity style={styles.btnAdd} onPress={() => setModal(true)}>
+                        <Icon name="plus" size={30} />
+                    </TouchableOpacity>
+                </View>
+                <Modal show={modal} close={() => setModal(false)} navigation={navigation} />
+            </LinearGradient>
         </View>
 
 
@@ -96,6 +132,9 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         marginLeft: '80%'
+    },
+    linearGradient: {
+        flex: 1,
     }
 
 })
