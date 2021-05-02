@@ -1,38 +1,21 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { View, Text, StyleSheet, KeyboardAvoidingView, TextInput, Platform, TouchableOpacity, StatusBar } from 'react-native';
 import LinearGradient  from 'react-native-linear-gradient';
-import firebase from '../Services/firebaseConnection';
+
+import {AuthContext} from '../Context/auth'
 
 
 export default function Login({ navigation }) {
 
-    const [user, setUser] = useState(null)
+    
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-
+    
+    const {logar} = useContext(AuthContext);
 
 
     async function handleLogin() {
-        await firebase.auth().signInWithEmailAndPassword(email, password)
-            .then(async (value) => {
-                let uid = value.user.uid;
-                await firebase.database().ref('users').child(uid).once('value')
-                    .then((snapshot) => {
-                        let data = {
-                            uid: uid,
-                            nome: snapshot.val().nome,
-                            email: value.user.email
-                        }
-                        navigation.navigate('Rota')
-                        setUser(data);
-                        setEmail('')
-                        setPassword('')
-                        //storageUser(data);
-                    })
-            })
-            .catch((error) => {
-                alert(error)
-            })
+        logar(email, password)
     }
 
     return (

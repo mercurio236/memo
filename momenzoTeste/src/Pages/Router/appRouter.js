@@ -3,26 +3,21 @@ import { View, Text } from 'react-native'
 import { createDrawerNavigator, DrawerItem } from '@react-navigation/drawer';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import {AuthContext} from './src/Pages/Context/auth';
-
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
 
-import Login from './src/Pages/Login';
-import Cadastro from './src/Pages/Cadastro';
-import Home from './src/Pages/Home';
-import Settings from './src/Pages/Settings';
-import Videos from './src/Pages/Videos';
-import Cam from './src/Pages/Camera';
-import CameraPro from './src/Pages/CameraPro';
+
+import Home from '../Home';
+import Settings from '../Settings';
+import Videos from '../Videos';
+import Cam from '../Camera';
+import CameraPro from '../CameraPro';
 
 
-function Router(){
+function AppRouters(){
     return(
-        <Stack.Navigator initialRouteName="Login">
-            <Stack.Screen name="Login" component={Login} options={{headerShown:false}}/>
-            <Stack.Screen name="Cadastro" component={Cadastro} options={{headerTintColor:'#FFF', headerStyle:{ backgroundColor:'#734AE9'}}}/>
+        <Stack.Navigator>
             <Stack.Screen name="Rota" component={RouterSecundaria} options={{headerShown:false}}/>
             <Stack.Screen name="Camera" component={Cam} options={{headerShown:false}}/>
             <Stack.Screen name="CameraPro" component={CameraPro} options={{headerShown: false}}/>
@@ -61,4 +56,4 @@ function RouterSecundaria() {
     )
 }
 
-export default Router;
+export default AppRouters;

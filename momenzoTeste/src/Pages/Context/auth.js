@@ -1,16 +1,16 @@
 import React,{useState, createContext, useEffect} from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import AsyncStorange from '@react-native-async-storage/async-storage';
 import firebase from '../Services/firebaseConnection';
 
 export const AuthContext = createContext({});
 
-export default function AuthProvider({ children }) {
+function AuthProvider({ children }) {
     const [user, setUser] = useState(null)
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {//mantem o usuario logado
         async function loadStorange(){
-            const storangeUser = await AsyncStorage.getItem('Auth_user');
+            const storangeUser = await AsyncStorange.getItem('Auth_user');
 
             if(storangeUser){
                 setUser(JSON.parse(storangeUser));
@@ -44,7 +44,7 @@ export default function AuthProvider({ children }) {
 
     //salvar os dados no asyncStorange
     async function storageUser(data) {
-        await AsyncStorage.setItem('Auth_user', JSON.stringify(data));
+        await AsyncStorange.setItem('Auth_user', JSON.stringify(data));
     }
 
     async function signOut(){
@@ -56,12 +56,14 @@ export default function AuthProvider({ children }) {
     }
 
     //cadastrar usuario
-    async function cadastrar(email, password, nome) {
+    async function cadastro(email, password, nome) {
         await firebase.auth().createUserWithEmailAndPassword(email, password)
             .then(async (value) => {
                 let uid = value.user.uid;
                 await firebase.database().ref('users').child(uid).set({
+                    saldo: 0,
                     nome: nome
+
                 })
                     .then(() => {
                         let data = {
@@ -79,9 +81,9 @@ export default function AuthProvider({ children }) {
     }
 
     return (
-        <AuthContext.Provider value={{ signed: !!user, user, cadastrar, logar, signOut, loading }}>
+        <AuthContext.Provider value={{ signed: !!user, user, cadastro, logar, signOut, loading }}>
             {children}
         </AuthContext.Provider>
     )
 }
-
+export default AuthProvider;

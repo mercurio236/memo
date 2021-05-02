@@ -1,84 +1,65 @@
 import React, { useState, useContext } from 'react';
 import { View, Text, StyleSheet, KeyboardAvoidingView, TextInput, Platform, TouchableOpacity, StatusBar } from 'react-native';
-import LinearGradient  from 'react-native-linear-gradient';
-import firebase from '../Services/firebaseConnection';
+import LinearGradient from 'react-native-linear-gradient';
+import { AuthContext } from '../Context/auth'
 
 
-export default function Cadastro({navigation}) {
+export default function Cadastro({ navigation }) {
     const [nome, setNome] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const { cadastro } = useContext(AuthContext)
 
     async function handleCadastrar() {
-        await firebase.auth().createUserWithEmailAndPassword(email, password)
-        .then(async (value) => {
-            let uid = value.user.uid;
-            await firebase.database().ref('users').child(uid).set({
-                nome: nome
-
-            })
-                .then(() => {
-                    let data = {
-                        uid: uid,
-                        nome: nome,
-                        email: value.user.email
-                    }
-                    setUser(data);
-                    storageUser(data);
-                })
-                navigation.navigate('Login')
-
-        }).catch((error) => {
-            console.log(error)
-        })
+        cadastro(email, password, nome)
     }
 
     return (
         <View style={styles.container}>
-            <LinearGradient colors={['#0BFFE3', '#557EE7', '#9B05EB']} start={{x: -2, y: 0}} end={{x: 1.4, y: 1}} style={styles.linearGradient}>
-            <StatusBar hidden={true} />
-            <KeyboardAvoidingView style={styles.key} behavior={Platform.OS === 'ios' ? 'padding' : ''} enabled>
+            <LinearGradient colors={['#0BFFE3', '#557EE7', '#9B05EB']} start={{ x: -2, y: 0 }} end={{ x: 1.4, y: 1 }} style={styles.linearGradient}>
+                <StatusBar hidden={true} />
+                <KeyboardAvoidingView style={styles.key} behavior={Platform.OS === 'ios' ? 'padding' : ''} enabled>
 
-                <View style={styles.areaInpur}>
-                    <TextInput
-                        style={styles.inputs}
-                        placeholder="Nome Completo"
-                        autoCapitalize="none"
-                        autoCorrect={false}
-                        value={nome}
-                        onChangeText={(text) => setNome(text)}
-                    />
-                </View>
+                    <View style={styles.areaInpur}>
+                        <TextInput
+                            style={styles.inputs}
+                            placeholder="Nome Completo"
+                            autoCapitalize="none"
+                            autoCorrect={false}
+                            value={nome}
+                            onChangeText={(text) => setNome(text)}
+                        />
+                    </View>
 
-                <View style={styles.areaInpur}>
-                    <TextInput
-                        style={styles.inputs}
-                        placeholder="E-mail"
-                        autoCapitalize="none"
-                        autoCorrect={false}
-                        value={email}
-                        keyboardType="email-address"
-                        onChangeText={(text) => setEmail(text)}
-                    />
-                </View>
+                    <View style={styles.areaInpur}>
+                        <TextInput
+                            style={styles.inputs}
+                            placeholder="E-mail"
+                            autoCapitalize="none"
+                            autoCorrect={false}
+                            value={email}
+                            keyboardType="email-address"
+                            onChangeText={(text) => setEmail(text)}
+                        />
+                    </View>
 
-                <View style={styles.areaInpur}>
-                    <TextInput
-                        style={styles.inputs}
-                        placeholder="Senha"
-                        autoCapitalize="none"
-                        autoCorrect={false}
-                        value={password}
-                        onChangeText={(text) => setPassword(text)}
-                    />
-                </View>
+                    <View style={styles.areaInpur}>
+                        <TextInput
+                            style={styles.inputs}
+                            placeholder="Senha"
+                            autoCapitalize="none"
+                            autoCorrect={false}
+                            value={password}
+                            onChangeText={(text) => setPassword(text)}
+                        />
+                    </View>
 
-                <TouchableOpacity style={styles.btnLogar} onPress={handleCadastrar}>
-                    <Text style={styles.submitText}>Cadastrar</Text>
-                </TouchableOpacity>
+                    <TouchableOpacity style={styles.btnLogar} onPress={handleCadastrar}>
+                        <Text style={styles.submitText}>Cadastrar</Text>
+                    </TouchableOpacity>
 
 
-            </KeyboardAvoidingView>
+                </KeyboardAvoidingView>
             </LinearGradient>
         </View>
     )

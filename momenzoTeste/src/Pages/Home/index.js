@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { View, Text, SafeAreaView, StyleSheet, TouchableOpacity, ScrollView, StatusBar, FlatList } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Video from 'react-native-video';
@@ -8,12 +8,13 @@ import ListaVideos from '../Home/listaVideos';
 import firebase from '../Services/firebaseConnection';
 import LinearGradient from 'react-native-linear-gradient';
 
+import {AuthContext} from '../Context/auth'
+
 
 
 function Home({ navigation }) {
     const [modal, setModal] = useState(false)
     const [videos, setVideos] = useState([]);
-    const [user, setUser] = useState(null)
     const [listVideo, setListVideo] = useState([
         { id: '1', title: 'video 1', date: '20/04/2021', hora: '15:11' },
         { id: '2', title: 'video 2', date: '20/04/2021', hora: '15:12' },
@@ -21,24 +22,15 @@ function Home({ navigation }) {
         { id: '4', title: 'video 4', date: '20/04/2021', hora: '15:14' },
     ])
 
+    const {user, signOut} = useContext(AuthContext)
+
 
     const STORAGE_KEY = '@save_video';
 
     useEffect(() => {
         rollVideos()
 
-        async function usuarioLogado() {
-            await firebase.database().ref('users').child(uid).once('value')
-                .then((snapshot) => {
-                    let data = {
-                        uid: uid,
-                        nome: snapshot.val().nome,
-                        email: value.user.email
-                    }
-                    setUser(data);
-                })
-        }
-        usuarioLogado()
+        
         console.log(user)
     }, [])
 
@@ -91,8 +83,8 @@ function Home({ navigation }) {
                         renderItem={({ item }) => <ListaVideos data={item} />}
 
                     />
-                    <Text>{user}</Text>
-                    <TouchableOpacity onPress={sair}>
+                    <Text>{user && user.nome}</Text>
+                    <TouchableOpacity onPress={() => signOut()}>
                         <Text>Sair</Text>
                     </TouchableOpacity>
 
