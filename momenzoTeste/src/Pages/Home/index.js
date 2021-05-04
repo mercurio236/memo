@@ -8,6 +8,7 @@ import ListaVideos from '../Home/listaVideos';
 import firebase from '../Services/firebaseConnection';
 import LinearGradient from 'react-native-linear-gradient';
 
+
 import {AuthContext} from '../Context/auth'
 
 
@@ -34,18 +35,7 @@ function Home({ navigation }) {
         console.log(user)
     }, [])
 
-    async function sair() {
-        await firebase.auth().signOut().
-            then((res) => {
-                navigation.navigate('Login')
-                console.log('saiu')
-            }
-            )
-            .catch((err) => {
-                console.log('Erro ao sair: ' + err)
-            })
-
-    }
+    
 
     const clearData = async () => {
         try {
@@ -84,13 +74,16 @@ function Home({ navigation }) {
 
                     />
                     <Text>{user && user.nome}</Text>
+                    <Text>{user && user.email}</Text>
                     <TouchableOpacity onPress={() => signOut()}>
                         <Text>Sair</Text>
                     </TouchableOpacity>
+                    
 
                     <TouchableOpacity style={styles.btnAdd} onPress={() => setModal(true)}>
                         <Icon name="plus" size={30} />
                     </TouchableOpacity>
+
                 </View>
                 <Modal show={modal} close={() => setModal(false)} navigation={navigation} />
             </LinearGradient>

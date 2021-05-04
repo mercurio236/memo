@@ -61,7 +61,7 @@ function Modal({ show, close, navigation}){
                 </View>
 
                 <TouchableOpacity style={styles.btn} onPress={close}>
-                    <Text style={{ color: '#FFF' }}>Fechar</Text>
+                    <Text style={{ color: '#FFF', fontSize:25, fontWeight:'bold' }}>Fechar</Text>
                 </TouchableOpacity>
             </LinearGradient>
             </Animated.View>
@@ -105,14 +105,14 @@ const styles = StyleSheet.create({
         width: '100%',
         height: 50,
         borderRadius: 10,
-        backgroundColor: '#000',
+        backgroundColor: '#6FBAEB',
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: 30
+        marginTop: 40
     },
 
     btnAprendiz: {
-        backgroundColor: '#000',
+        backgroundColor: '#6FBAEB',
         marginBottom: '2%',
         marginTop: '3%',
         width: '50%',
@@ -120,11 +120,19 @@ const styles = StyleSheet.create({
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        marginEnd: '1%'
+        marginEnd: '1%',
+        shadowColor:'#000',
+        shadowOffset:{
+            width: 0,
+            height: 2
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5
     },
 
     btnPro: {
-        backgroundColor: '#000',
+        backgroundColor: '#6FBAEB',
         marginBottom: '2%',
         marginTop: '3%',
         width: '50%',
@@ -132,9 +140,18 @@ const styles = StyleSheet.create({
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
+        shadowColor:'#000',
+        shadowOffset:{
+            width: 5,
+            height: 6
+        },
+        shadowOpacity: 1,
+        shadowRadius: 3.84,
+        elevation: 6
     },
     dir: {
         flexDirection: 'row',
-        height: '58%'
+        height: '58%',
+        marginTop: 40
     }
 })

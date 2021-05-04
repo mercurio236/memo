@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
     btnLogar: {
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#84EBEE',
+        backgroundColor: '#6FBAEB',
         width: '90%',
         height: 45,
         borderRadius: 7,
@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
     },
     submitText: {
         fontSize: 20,
-        color: '#131313'
+        color: '#FFF'
     },
     linearGradient: {
         flex: 1,
