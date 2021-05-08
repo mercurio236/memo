@@ -22,8 +22,6 @@ function Cadastro({ navigation }) {
     }, [])
     return (
         <View>
-
-
             <View style={{ justifyContent: 'center', alignItems: 'center', marginBottom: '4%' }}>
                 <View style={{ justifyContent: 'center', alignItems: 'center', display: 'flex', flexDirection: 'row', marginTop: '10%', marginBottom: '5%' }}>
                     <Image style={{ width: 50, height: 50, marginEnd: 10 }} source={{ uri: 'https://reactnative.dev/img/tiny_logo.png' }} />
@@ -37,7 +35,7 @@ function Cadastro({ navigation }) {
                 <TouchableOpacity onPress={() => navigation.push('Project')} style={styles.btnAprendizado}>
                     <Text>Aprendizado</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.btnProfissional}>
+                <TouchableOpacity style={styles.btnProfissional} onPress={() =>  setModalNewProject(false)}>
                     <Text>Pro</Text>
                 </TouchableOpacity>
             </View>
@@ -326,6 +324,7 @@ function AllSet({navigation}){
 }
 
 
+
 function CadastroImovel() {
 
     const Stack = createStackNavigator();
@@ -333,19 +332,19 @@ function CadastroImovel() {
     return (
         <SafeAreaProvider>
             <NavigationContainer independent={true}>
-                <Stack.Navigator initialRouteName="Cad" headerMode="none">
-                    <Stack.Screen name="Cad" component={Cadastro} options={{ headerShown: false }} />
-                    <Stack.Screen name="Project" component={Project} options={{ headerShown: false }} />
-                    <Stack.Screen name="Localization" component={Localization} options={{ headerShown: false }} />
-                    <Stack.Screen name="Price" component={Price} options={{ headerShown: false }} />
-                    <Stack.Screen name="Space" component={Space} options={{ headerShown: false }} />
-                    <Stack.Screen name="Land" component={Land} options={{ headerShown: false }} />
-                    <Stack.Screen name="Parking" component={Parking} options={{ headerShown: false }} />
-                    <Stack.Screen name="Restroon" component={Restroon} options={{ headerShown: false }} />
-                    <Stack.Screen name="Badrooms" component={BadroomsLocal} options={{ headerShown: false }} />
-                    <Stack.Screen name="Ref" component={Ref} options={{ headerShown: false }} />
-                    <Stack.Screen name="AllSet" component={AllSet} options={{ headerShown: false }} />
-                    <Stack.Screen name="Camera" component={Camera} options={{ headerShown: false }} />
+                <Stack.Navigator initialRouteName="Cad" headerMode="none" >
+                    <Stack.Screen name="Cad" component={Cadastro}  />
+                    <Stack.Screen name="Project" component={Project} />
+                    <Stack.Screen name="Localization" component={Localization}  />
+                    <Stack.Screen name="Price" component={Price} />
+                    <Stack.Screen name="Space" component={Space}  />
+                    <Stack.Screen name="Land" component={Land}  />
+                    <Stack.Screen name="Parking" component={Parking}  />
+                    <Stack.Screen name="Restroon" component={Restroon}  />
+                    <Stack.Screen name="Badrooms" component={BadroomsLocal}  />
+                    <Stack.Screen name="Ref" component={Ref}  />
+                    <Stack.Screen name="AllSet" component={AllSet}  />
+                    <Stack.Screen name="Camera" component={Camera}  />
 
                 </Stack.Navigator>
             </NavigationContainer>
