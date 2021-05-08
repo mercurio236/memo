@@ -14,7 +14,7 @@ export default function Settings() {
 
     return (
         <SafeAreaView style={styles.container}>
-            <LinearGradient colors={['#0BFFE3', '#557EE7', '#9B05EB']} start={{ x: -2, y: 0 }} end={{ x: 1.4, y: 1 }} style={{ flex: 1 }}>
+           
             <View style={styles.body}>
                 <Text style={styles.text}>Qualidade do Video</Text>
                 <PickerView>
@@ -48,7 +48,7 @@ export default function Settings() {
                     />
                 </View>
             </View>
-            </LinearGradient>
+        
         </SafeAreaView>
     )
 }
@@ -56,10 +56,10 @@ export default function Settings() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#000'
+        backgroundColor: '#FFF'
     },
     text: {
-        color: '#FFF',
+        color: '#000',
         margin: 10,
         fontSize: 20
     },
@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
         paddingLeft: '3%'
     },
     picker: {
-        backgroundColor: '#FFF',
+        backgroundColor: '#000',
         width: '17%',
         height: '20%',
         margin: 20,

@@ -22,6 +22,7 @@ import CameraRoll from '@react-native-community/cameraroll';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import LottieView from 'lottie-react-native';
+import ImagePicker from 'react-native-image-picker';
 
 import Arrow from '../../Assets/arrow.json'
 
@@ -36,10 +37,12 @@ export default function Camera({ navigation }) {
     const [cameraReady, setCameraReady] = useState(false)
     const [saveVideos, setSaveVideo] = useState({ videos: [] });
     const [capturaPhoto, setCapturaPhoto] = useState(null)
+    const [cameraType, setCameraType] = useState(RNCamera.Constants.Type.back)
+    const [album, setAlbum] = useState(null)
 
-   
 
-    
+
+
 
 
     const cameraRef = useRef();
@@ -53,7 +56,7 @@ export default function Camera({ navigation }) {
             const { status } = await PermissionsAndroid.request(permission)
             return status
         })
-        
+
     }, [])
 
     const saveVideo = () => {
@@ -166,6 +169,17 @@ export default function Camera({ navigation }) {
         }
     }
 
+    //seleciona camera
+    const switchCamera = () => {
+
+        setCameraType((prevCameraType) =>
+            prevCameraType === RNCamera.Constants.Type.back
+                ? RNCamera.Constants.Type.front
+                : RNCamera.Constants.Type.back
+        );
+
+    };
+
     //autorização para salvar no dispositivo
     async function hasAndroidPermission() {
         const permission = PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE;
@@ -194,6 +208,21 @@ export default function Camera({ navigation }) {
             })
     }
 
+    //Escolhe o album 
+    const getAlbum = () => {
+        
+        
+        
+            
+
+                setModalOpen(true)
+            
+        
+
+
+
+    }
+
 
 
 
@@ -209,7 +238,7 @@ export default function Camera({ navigation }) {
                 defaultVideoQuality={RNCamera.Constants.VideoQuality['720p']}
 
 
-                type={RNCamera.Constants.Type.back}
+                type={cameraType}
                 flashMode={RNCamera.Constants.FlashMode.auto}
                 autoFocus={RNCamera.Constants.AutoFocus.on}
                 ratio="8:4"
@@ -227,15 +256,15 @@ export default function Camera({ navigation }) {
                     if (status !== 'READY') return <View />
                     return (
                         <View>
-                           
-                                <LottieView style={styles.arrow} resizeMode="container" source={Arrow} autoPlay loop />
-                           
+
+
+
                             <TouchableOpacity style={styles.back} onPress={() => navigation.goBack()}>
-                                <Icon name="arrow-left" color="#FFF" size={30} />
+                                <Icon name="chevron-up" color="#FFF" size={30} />
                             </TouchableOpacity>
 
 
-                            <View style={{ marginBottom: 5, flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-between', marginLeft: 80 }}>
+                            <View style={styles.btns}>
                                 {videoRecording === false ? (
                                     <TouchableOpacity onPress={recordVideo} style={styles.capture}>
                                         <Icon name="circle" color="#FFF" size={70} />
@@ -247,8 +276,12 @@ export default function Camera({ navigation }) {
                                 )
 
                                 }
-                                <TouchableOpacity style={styles.capture} onPress={takePickture}>
-                                    <Icon name="camera" size={40} color="#FFF" />
+                                <TouchableOpacity style={styles.capture} onPress={switchCamera}>
+                                    <Icon style={{ transform: [{ rotate: '90deg' }] }} name="camera" size={50} color="#FFF" />
+                                </TouchableOpacity>
+
+                                <TouchableOpacity style={styles.capture} onPress={getAlbum}>
+                                    <Icon style={{ transform: [{ rotate: '90deg' }] }} name="image" size={50} color="#FFF" />
                                 </TouchableOpacity>
                             </View>
                         </View>
@@ -257,7 +290,17 @@ export default function Camera({ navigation }) {
 
             </RNCamera>
 
+            <Modal animationType="slide" transparent={false} visible={modalOpen}>
+                <Image
+                    style={{ position: 'absolute', top: 0, left: 0, bottom: 0, right: 0 }}
+                    source={{ uri: album }}
 
+                />
+                <TouchableOpacity style={styles.btnFechar} onPress={() => setModalOpen(!modalOpen)}>
+                    <Text style={{ fontSize: 20, flex: 1, justifyContent: 'center', alignItems: 'center', margin: 5, marginTop: -6 }}></Text>
+                    <Icon name="times" size={40} color="#FFF" />
+                </TouchableOpacity>
+            </Modal>
 
             {
 
@@ -276,7 +319,7 @@ export default function Camera({ navigation }) {
                         </TouchableOpacity>
 
                         <TouchableOpacity style={styles.btnSalvar} onPress={savePic}>
-                            <Icon name="save" size={40} style={{ top: -5 }} />
+                            <Icon name="save" size={40} style={{ top: -7 }} />
                         </TouchableOpacity>
                     </View>
                 </Modal>
@@ -316,8 +359,8 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'center',
-        elevation:2,
-        zIndex:1
+        elevation: 2,
+        zIndex: 1
     },
     preview: {
         flex: 1,
@@ -352,13 +395,13 @@ const styles = StyleSheet.create({
     back: {
         padding: 10,
         position: 'absolute',
-        top: -550,
-        right: 303,
-        zIndex: 1
+        top: -820,
+        right: 190,
+
     },
-    arrow: {
-        width: 150,
-        marginLeft: 40,
-        top: -300
+    btns: {
+        marginTop: -760,
+        left: -160
     }
+
 })

@@ -96,7 +96,7 @@ export default function Videos() {
 
     return (
         <View style={styles.container}>
-             <LinearGradient colors={['#0BFFE3', '#557EE7', '#9B05EB']} start={{ x: -2, y: 0 }} end={{ x: 1.4, y: 1 }} style={{ flex: 1 }}>
+             
             <ScrollView style={{ flex: 1 }}>
                 <View style={styles.body}>
                     <Text style={styles.text}>Não há videos em sua Galeria </Text>
@@ -108,12 +108,12 @@ export default function Videos() {
                     />
 
                     <TouchableOpacity onPress={clearData}>
-                        <Text style={{color:'#FFF'}}>Limpar Storage</Text>
+                        <Text style={{color:'#000'}}>Limpar Storage</Text>
                     </TouchableOpacity>
 
                 </View>
             </ScrollView>
-            </LinearGradient>
+            
         </View>
     )
 }
@@ -121,10 +121,10 @@ export default function Videos() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#000',
+        backgroundColor: '#FFF',
     },
     text: {
-        color: '#FFF',
+        color: '#000',
         fontSize: 20
     },
 

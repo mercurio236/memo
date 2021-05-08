@@ -23,7 +23,7 @@ export default function Login({ navigation }) {
         <View style={styles.container}>
             <StatusBar hidden={true} />
 
-            <LinearGradient colors={['#0BFFE3', '#557EE7', '#9B05EB']} start={{x: -2, y: 0}} end={{x: 1.4, y: 1}} style={styles.linearGradient}>
+            
             <KeyboardAvoidingView style={styles.key} behavior={Platform.OS === 'ios' ? 'padding' : ''} enabled>
 
                 <View style={styles.areaInpur}>
@@ -63,7 +63,7 @@ export default function Login({ navigation }) {
 
             </KeyboardAvoidingView>
         
-                </LinearGradient>
+               
         </View>
 
     )
@@ -72,7 +72,7 @@ export default function Login({ navigation }) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#131313',
+        backgroundColor: '#FFF',
     },
     areaInpur: {
         flexDirection: 'row'
@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
     btnLogar: {
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#6FBAEB',
+        backgroundColor: '#17BC70',
         width: '90%',
         height: 45,
         borderRadius: 7,
@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
 
     },
     cadastroLink: {
-        color: '#FFF'
+        color: '#000'
     },
     linearGradient: {
         flex: 1,

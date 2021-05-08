@@ -16,7 +16,7 @@ export default function Cadastro({ navigation }) {
 
     return (
         <View style={styles.container}>
-            <LinearGradient colors={['#0BFFE3', '#557EE7', '#9B05EB']} start={{ x: -2, y: 0 }} end={{ x: 1.4, y: 1 }} style={styles.linearGradient}>
+            
                 <StatusBar hidden={true} />
                 <KeyboardAvoidingView style={styles.key} behavior={Platform.OS === 'ios' ? 'padding' : ''} enabled>
 
@@ -60,7 +60,7 @@ export default function Cadastro({ navigation }) {
 
 
                 </KeyboardAvoidingView>
-            </LinearGradient>
+            
         </View>
     )
 }
@@ -68,7 +68,7 @@ export default function Cadastro({ navigation }) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#131313'
+        backgroundColor: '#FFF'
     },
     areaInpur: {
         flexDirection: 'row'
@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
     btnLogar: {
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#6FBAEB',
+        backgroundColor: '#17BC70',
         width: '90%',
         height: 45,
         borderRadius: 7,

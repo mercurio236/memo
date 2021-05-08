@@ -5,7 +5,7 @@ import Video from 'react-native-video';
 import ModalOpen from '../Modal';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import ListaVideos from '../Home/listaVideos';
-import LinearGradient from 'react-native-linear-gradient';
+
 
 import { AuthContext } from '../Context/auth'
 
@@ -63,7 +63,7 @@ function Home({ navigation }) {
 
         <View style={styles.container}>
             <StatusBar hidden={true} />
-            <LinearGradient colors={['#0BFFE3', '#557EE7', '#9B05EB']} start={{ x: -2, y: 0 }} end={{ x: 1.4, y: 1 }} style={styles.linearGradient}>
+          
                 <View style={styles.body} >
 
                     <FlatList
@@ -72,11 +72,7 @@ function Home({ navigation }) {
                         renderItem={({ item }) => <ListaVideos data={item} />}
 
                     />
-                    <Text>{user && user.nome}</Text>
-                    <Text>{user && user.email}</Text>
-                    <TouchableOpacity onPress={() => signOut()}>
-                        <Text>Sair</Text>
-                    </TouchableOpacity>
+                    
 
 
                     <TouchableOpacity style={styles.btnAdd} onPress={() => setModal(true)}>
@@ -89,7 +85,7 @@ function Home({ navigation }) {
                
 
 
-            </LinearGradient>
+           
         </View>
 
 
@@ -102,7 +98,7 @@ export default Home;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#000',
+        backgroundColor: '#FFF',
     },
     body: {
         color: "#FFF",

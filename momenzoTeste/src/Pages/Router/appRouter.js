@@ -13,6 +13,7 @@ import Settings from '../Settings';
 import Videos from '../Videos';
 import Cam from '../Camera';
 import CameraPro from '../CameraPro';
+import InfoUser from '../InfoUser';
 
 
 
@@ -23,6 +24,7 @@ function AppRouters() {
             <Stack.Screen name="Rota" component={RouterSecundaria} options={{ headerShown: false }} />
             <Stack.Screen name="Camera" component={Cam} options={{ headerShown: false }} />
             <Stack.Screen name="CameraPro" component={CameraPro} options={{ headerShown: false }} />
+           
             {/* Cadastro inicial de imoveis */}
             <Stack.Screen name="Cad" component={Cadastro} options={{ headerShown: false }} />
             <Stack.Screen name="Project" component={Project} options={{ headerShown: false }}/>
@@ -46,7 +48,7 @@ function RouterSecundaria() {
     return (
         <Drawer.Navigator initialRouteName="Projects"
             drawerStyle={{
-                backgroundColor: '#1B0067',
+                backgroundColor: '#FFF',
             }}
 
             drawerContentOptions={{
@@ -54,17 +56,18 @@ function RouterSecundaria() {
                     fontWeight: 'bold'
                 },
                 activeTintColor: '#FFF',
-                activeBackgroundColor: '#557EE7',
-                inactiveBackgroundColor: '#0F0136',
-                inactiveTintColor: '#DDD',
+                activeBackgroundColor: '#00D58B',
+                inactiveBackgroundColor: '#025F3F',
+                inactiveTintColor: '#FFF',
                 itemStyle: {
                     marginVertical: 5,
 
                 },
             }}>
-            <Drawer.Screen name="Projects" component={Home} options={{ headerShown: true, headerTintColor: '#FFF', headerStyle: { backgroundColor: '#734AE9' } }} />
-            <Drawer.Screen name="Videos" component={Videos} options={{ headerShown: true, headerTintColor: '#FFF', headerStyle: { backgroundColor: '#734AE9' } }} />
-            <Drawer.Screen name="Settings" component={Settings} options={{ headerShown: true, headerTintColor: '#FFF', headerStyle: { backgroundColor: '#734AE9' } }} />
+            <Drawer.Screen name="Projects" component={Home} options={{ headerShown: true, headerTintColor: '#FFF', headerStyle: { backgroundColor: '#00D58B' } }} />
+            <Drawer.Screen name="Videos" component={Videos} options={{ headerShown: true, headerTintColor: '#FFF', headerStyle: { backgroundColor: '#00D58B' } }} />
+            <Drawer.Screen name="Setting" component={Settings} options={{ headerShown: true, headerTintColor: '#FFF', headerStyle: { backgroundColor: '#00D58B' } }} />
+            <Drawer.Screen name="Conta" component={InfoUser} options={{ headerShown: true, headerTintColor: '#FFF', headerStyle: { backgroundColor: '#00D58B' } }} />
         </Drawer.Navigator>
     )
 }
@@ -422,7 +425,8 @@ const styles = StyleSheet.create({
     container: {
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: '45%'
+        marginTop: '59%',
+        
     },
     textProject: {
         fontSize: 23,

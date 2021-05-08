@@ -55,11 +55,11 @@ function Modal({ show, close, navigation }) {
 
             <Animated.View style={[styles.container, { opacity: state.opacity, transform: [{ translateY: state.container }] }]}>
                 <Animated.View style={[styles.modal, { transform: [{ translateY: state.modal }] }]}>
-                    <LinearGradient colors={['#0BFFE3', '#557EE7', '#9B05EB']} start={{ x: -2, y: 0 }} end={{ x: 1.4, y: 1 }} style={{ flex: 1, padding: 10, width: '117%', marginLeft: '-9%', borderRadius: 20 }}>
+                    
                         <View style={styles.indicador} />
 
                         <View style={styles.dir}>
-                            <TouchableOpacity style={styles.btnAprendiz} onPress={() => navigation.push('Camera')} >
+                            <TouchableOpacity style={styles.btnAprendiz} onPress={() => navigation.push('Project')} >
                                 <Text style={{ color: '#FFF' }}>Aprendizado</Text>
                             </TouchableOpacity>
 
@@ -72,7 +72,7 @@ function Modal({ show, close, navigation }) {
                         <TouchableOpacity style={styles.btn} onPress={close}>
                             <Text style={{ color: '#FFF', fontSize: 25, fontWeight: 'bold' }}>Fechar</Text>
                         </TouchableOpacity>
-                    </LinearGradient>
+                   
                 </Animated.View>
             </Animated.View>
             
@@ -115,14 +115,14 @@ const styles = StyleSheet.create({
         width: '100%',
         height: 50,
         borderRadius: 10,
-        backgroundColor: '#6FBAEB',
+        backgroundColor: '#00D58B',
         justifyContent: 'center',
         alignItems: 'center',
         marginTop: 40
     },
 
     btnAprendiz: {
-        backgroundColor: '#6FBAEB',
+        backgroundColor: '#00D58B',
         marginBottom: '2%',
         marginTop: '3%',
         width: '50%',
@@ -142,7 +142,7 @@ const styles = StyleSheet.create({
     },
 
     btnPro: {
-        backgroundColor: '#6FBAEB',
+        backgroundColor: '#00D58B',
         marginBottom: '2%',
         marginTop: '3%',
         width: '50%',
