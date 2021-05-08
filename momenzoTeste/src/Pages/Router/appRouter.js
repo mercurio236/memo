@@ -13,6 +13,8 @@ import Settings from '../Settings';
 import Videos from '../Videos';
 import Cam from '../Camera';
 import CameraPro from '../CameraPro';
+import CadastroImovel from '../CadastroImovel';
+
 
 
 function AppRouters(){
@@ -21,6 +23,8 @@ function AppRouters(){
             <Stack.Screen name="Rota" component={RouterSecundaria} options={{headerShown:false}}/>
             <Stack.Screen name="Camera" component={Cam} options={{headerShown:false}}/>
             <Stack.Screen name="CameraPro" component={CameraPro} options={{headerShown: false}}/>
+            <Stack.Screen name="CadastroImovel" component={CadastroImovel}/>
+           
         </Stack.Navigator>
     )
 }

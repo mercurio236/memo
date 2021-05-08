@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Animated, Dimensions, Button, LogBox } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Animated, Dimensions, Button, LogBox} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 
 
@@ -7,13 +7,17 @@ const { height } = Dimensions.get('window');
 
 
 
-function Modal({ show, close, navigation}){
+
+
+function Modal({ show, close, navigation }) {
     const [state, setState] = useState({
         opacity: new Animated.Value(0),
         container: new Animated.Value(height),
         modal: new Animated.Value(height)
 
     })
+
+   
 
     const openModal = () => {
         Animated.sequence([
@@ -31,41 +35,47 @@ function Modal({ show, close, navigation}){
         ]).start()
     }
 
+    
+
     useEffect(() => {
         if (show) {
             openModal()
         } else {
             closeModal()
         }
-        //console.disableYellowBox = true; Deprecated, substituído por
+        
         LogBox.ignoreAllLogs(true); // xD
     }, [show])
 
-   
+
 
     return (
-        <Animated.View style={[styles.container, { opacity: state.opacity, transform: [{ translateY: state.container }] }]}>
-            <Animated.View style={[styles.modal, { transform: [{ translateY: state.modal }] }]}>
-            <LinearGradient colors={['#0BFFE3', '#557EE7', '#9B05EB']} start={{ x: -2, y: 0 }} end={{ x: 1.4, y: 1 }} style={{ flex: 1, padding: 10, width:'117%', marginLeft:'-9%', borderRadius:20 }}>
-                <View style={styles.indicador} />
+  
 
-                <View style={styles.dir}>
-                    <TouchableOpacity style={styles.btnAprendiz} onPress={() => navigation.push('Camera')} >
-                        <Text style={{ color: '#FFF' }}>Aprendizado</Text>
-                    </TouchableOpacity>
 
-                    
-                    <TouchableOpacity style={styles.btnPro} onPress={() => navigation.push('CameraPro')}>
-                        <Text style={{ color: '#FFF' }}>Profissional</Text>
-                    </TouchableOpacity>
-                </View>
+            <Animated.View style={[styles.container, { opacity: state.opacity, transform: [{ translateY: state.container }] }]}>
+                <Animated.View style={[styles.modal, { transform: [{ translateY: state.modal }] }]}>
+                    <LinearGradient colors={['#0BFFE3', '#557EE7', '#9B05EB']} start={{ x: -2, y: 0 }} end={{ x: 1.4, y: 1 }} style={{ flex: 1, padding: 10, width: '117%', marginLeft: '-9%', borderRadius: 20 }}>
+                        <View style={styles.indicador} />
 
-                <TouchableOpacity style={styles.btn} onPress={close}>
-                    <Text style={{ color: '#FFF', fontSize:25, fontWeight:'bold' }}>Fechar</Text>
-                </TouchableOpacity>
-            </LinearGradient>
+                        <View style={styles.dir}>
+                            <TouchableOpacity style={styles.btnAprendiz} onPress={() => navigation.push('Camera')} >
+                                <Text style={{ color: '#FFF' }}>Aprendizado</Text>
+                            </TouchableOpacity>
+
+
+                            <TouchableOpacity style={styles.btnPro} onPress={() => navigation.push('CameraPro')}>
+                                <Text style={{ color: '#FFF' }}>Profissional</Text>
+                            </TouchableOpacity>
+                        </View>
+
+                        <TouchableOpacity style={styles.btn} onPress={close}>
+                            <Text style={{ color: '#FFF', fontSize: 25, fontWeight: 'bold' }}>Fechar</Text>
+                        </TouchableOpacity>
+                    </LinearGradient>
+                </Animated.View>
             </Animated.View>
-        </Animated.View>
+            
     )
 }
 
@@ -121,8 +131,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         marginEnd: '1%',
-        shadowColor:'#000',
-        shadowOffset:{
+        shadowColor: '#000',
+        shadowOffset: {
             width: 0,
             height: 2
         },
@@ -140,8 +150,8 @@ const styles = StyleSheet.create({
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        shadowColor:'#000',
-        shadowOffset:{
+        shadowColor: '#000',
+        shadowOffset: {
             width: 5,
             height: 6
         },

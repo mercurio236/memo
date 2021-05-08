@@ -37,18 +37,9 @@ export default function Camera({ navigation }) {
     const [saveVideos, setSaveVideo] = useState({ videos: [] });
     const [capturaPhoto, setCapturaPhoto] = useState(null)
 
-    //animation 
-    const [slideLeft, setSlideLeft] = useState(new Animated.Value(0))
+   
 
-    const start = () => {
-        return Animated.parallel([
-            Animated.timing(setSlideLeft, {
-                toValue: 1,
-                duration: 500,
-                useNativeDriver: true
-            })
-        ]).start();
-    }
+    
 
 
     const cameraRef = useRef();
@@ -239,7 +230,7 @@ export default function Camera({ navigation }) {
                            
                                 <LottieView style={styles.arrow} resizeMode="container" source={Arrow} autoPlay loop />
                            
-                            <TouchableOpacity style={styles.back} onPress={() => navigation.navigate('Projects')}>
+                            <TouchableOpacity style={styles.back} onPress={() => navigation.goBack()}>
                                 <Icon name="arrow-left" color="#FFF" size={30} />
                             </TouchableOpacity>
 
@@ -324,7 +315,8 @@ export default function Camera({ navigation }) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'center'
+        justifyContent: 'center',
+        zIndex:1
     },
     preview: {
         flex: 1,

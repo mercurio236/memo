@@ -1,19 +1,22 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { View, Text, SafeAreaView, StyleSheet, TouchableOpacity, ScrollView, StatusBar, FlatList } from 'react-native';
+import { View, Text, SafeAreaView, StyleSheet, TouchableOpacity, ScrollView, StatusBar, FlatList, Modal, Image } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Video from 'react-native-video';
-import Modal from '../Modal';
+import ModalOpen from '../Modal';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import ListaVideos from '../Home/listaVideos';
-import firebase from '../Services/firebaseConnection';
 import LinearGradient from 'react-native-linear-gradient';
 
+import RotaCadastoProjeto from '../CadastroImovel';
 
-import {AuthContext} from '../Context/auth'
+
+
+import { AuthContext } from '../Context/auth'
 
 
 
 function Home({ navigation }) {
+    const [modalNewProject, setModalNewProject] = useState(false);
     const [modal, setModal] = useState(false)
     const [videos, setVideos] = useState([]);
     const [listVideo, setListVideo] = useState([
@@ -23,19 +26,19 @@ function Home({ navigation }) {
         { id: '4', title: 'video 4', date: '20/04/2021', hora: '15:14' },
     ])
 
-    const {user, signOut} = useContext(AuthContext)
+    const { user, signOut } = useContext(AuthContext)
 
 
     const STORAGE_KEY = '@save_video';
 
     useEffect(() => {
         rollVideos()
+        setModalNewProject(true)
 
-        
         console.log(user)
     }, [])
 
-    
+
 
     const clearData = async () => {
         try {
@@ -60,6 +63,13 @@ function Home({ navigation }) {
         }
     }
 
+    function cadastro() {
+
+        <CadastroImovel />
+    }
+
+
+
     return (
 
         <View style={styles.container}>
@@ -78,14 +88,33 @@ function Home({ navigation }) {
                     <TouchableOpacity onPress={() => signOut()}>
                         <Text>Sair</Text>
                     </TouchableOpacity>
-                    
+
 
                     <TouchableOpacity style={styles.btnAdd} onPress={() => setModal(true)}>
                         <Icon name="plus" size={30} />
                     </TouchableOpacity>
 
                 </View>
-                <Modal show={modal} close={() => setModal(false)} navigation={navigation} />
+                <ModalOpen show={modal} close={() => setModal(false)} navigation={navigation} />
+
+                <Modal name="newProject" animationType="slide" transparent={false} visible={modalNewProject}>
+                    <View style={styles.headerModal}>
+                        <View style={styles.btnPro}>
+                            <TouchableOpacity onPress={() => setModalNewProject(false)}>
+                                <Text style={styles.textModal}>Cancelar</Text>
+                            </TouchableOpacity>
+
+                            <TouchableOpacity>
+                                <Text style={styles.textModal}>Pular</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+
+                    <RotaCadastoProjeto/>
+                    
+                </Modal>
+
+
             </LinearGradient>
         </View>
 
@@ -120,6 +149,44 @@ const styles = StyleSheet.create({
     },
     linearGradient: {
         flex: 1,
+    },
+    headerModal: {
+        backgroundColor: '#E3E3E3',
+        height: 60,
+        borderBottomEndRadius: 7
+    },
+    btnPro: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        margin: 18
+    },
+    textModal: {
+        fontSize: 18,
+        color: '#9B05EB'
+    },
+    btnsProjects: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        display: 'flex',
+        flexDirection: 'row',
+        marginTop: '7%',
+
+    },
+    btnAprendizado: {
+        backgroundColor: '#6FBAEB',
+        width: '45%',
+        height: 250,
+        marginEnd: 10,
+        borderRadius: 5
+    },
+    btnProfissional: {
+        backgroundColor: '#6FBAEB',
+        height: 250,
+        width: '45%',
+        borderRadius: 5
+
     }
 
 })
