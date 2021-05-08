@@ -7,6 +7,7 @@ export const AuthContext = createContext({});
 function AuthProvider({ children }) {
     const [user, setUser] = useState(null)
     const [loading, setLoading] = useState(true);
+    
 
     useEffect(() => {//mantem o usuario logado
         async function loadStorange(){
@@ -21,6 +22,7 @@ function AuthProvider({ children }) {
         loadStorange()
     }, [])
 
+ 
     //funcao para logar usuario
     async function logar(email, password) {
         await firebase.auth().signInWithEmailAndPassword(email, password)

@@ -7,12 +7,15 @@ import Router from './src/Pages/Router';
 import AuthProvider from './src/Pages/Context/auth';
 
 
+
+
 function App() {
   return (
     <NavigationContainer>
       <AuthProvider>
         <StatusBar backgroundColor="#131313" barStyle="light-content" />
         <Router />
+        
       </AuthProvider>
     </NavigationContainer>
 

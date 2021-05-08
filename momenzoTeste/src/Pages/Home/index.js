@@ -7,10 +7,6 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import ListaVideos from '../Home/listaVideos';
 import LinearGradient from 'react-native-linear-gradient';
 
-import RotaCadastoProjeto from '../CadastroImovel';
-
-
-
 import { AuthContext } from '../Context/auth'
 
 
@@ -63,13 +59,6 @@ function Home({ navigation }) {
         }
     }
 
-    function cadastro() {
-
-        <CadastroImovel />
-    }
-
-
-
     return (
 
         <View style={styles.container}>
@@ -97,22 +86,7 @@ function Home({ navigation }) {
                 </View>
                 <ModalOpen show={modal} close={() => setModal(false)} navigation={navigation} />
 
-                <Modal name="newProject" animationType="slide" transparent={false} visible={modalNewProject}>
-                    <View style={styles.headerModal}>
-                        <View style={styles.btnPro}>
-                            <TouchableOpacity onPress={() => setModalNewProject(false)}>
-                                <Text style={styles.textModal}>Cancelar</Text>
-                            </TouchableOpacity>
-
-                            <TouchableOpacity>
-                                <Text style={styles.textModal}>Pular</Text>
-                            </TouchableOpacity>
-                        </View>
-                    </View>
-
-                    <RotaCadastoProjeto/>
-                    
-                </Modal>
+               
 
 
             </LinearGradient>
@@ -153,7 +127,8 @@ const styles = StyleSheet.create({
     headerModal: {
         backgroundColor: '#E3E3E3',
         height: 60,
-        borderBottomEndRadius: 7
+        borderBottomEndRadius: 7,
+        zIndex: 5
     },
     btnPro: {
         display: 'flex',
