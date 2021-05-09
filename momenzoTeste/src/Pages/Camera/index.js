@@ -22,7 +22,7 @@ import CameraRoll from '@react-native-community/cameraroll';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import LottieView from 'lottie-react-native';
-import ImagePicker from 'react-native-image-picker';
+import { launchImageLibrary } from 'react-native-image-picker';
 
 import Arrow from '../../Assets/arrow.json'
 
@@ -39,6 +39,8 @@ export default function Camera({ navigation }) {
     const [capturaPhoto, setCapturaPhoto] = useState(null)
     const [cameraType, setCameraType] = useState(RNCamera.Constants.Type.back)
     const [album, setAlbum] = useState(null)
+
+    const [modalAlbum, setModalAlbum] = useState(false)
 
 
 
@@ -210,16 +212,23 @@ export default function Camera({ navigation }) {
 
     //Escolhe o album 
     const getAlbum = () => {
-        
-        
-        
-            
+        const options = {
+            titile: 'Selecione um video',
+            mediaType: 'video'
+        }
 
-                setModalOpen(true)
-            
-        
-
-
+        launchImageLibrary(options, (response) => {
+            if (response.didCancel) {
+                console.log('Image Picker cancelado')
+            }
+            else if (response.errorMessage) {
+                console.log('Gerou algim erro' + response.errorCode)
+            }
+            else {
+                setAlbum(response.uri)
+                setModalAlbum(true)
+            }
+        })
 
     }
 
@@ -289,22 +298,26 @@ export default function Camera({ navigation }) {
                 }}
 
             </RNCamera>
+                
+                
+                {album && <Modal animationType="slide" transparent={false} visible={modalAlbum}>
+                    <Video
+                        style={{ position: 'absolute', top: '8%', left: '-112%', bottom: 0, right: 0, transform: [{ rotate: '90deg' }], width: '212%', height: '100%' }}
+                        source={{ uri: album }}
 
-            <Modal animationType="slide" transparent={false} visible={modalOpen}>
-                <Image
-                    style={{ position: 'absolute', top: 0, left: 0, bottom: 0, right: 0 }}
-                    source={{ uri: album }}
+                    />
+                    <TouchableOpacity style={styles.btnFechar} onPress={() => setModalAlbum(!modalAlbum)}>
+                        <Text style={{ fontSize: 20, flex: 1, justifyContent: 'center', alignItems: 'center', margin: 5, marginTop: -6 }}></Text>
+                        <Icon name="times" size={40} color="#FFF" />
+                    </TouchableOpacity>
+                </Modal>}
 
-                />
-                <TouchableOpacity style={styles.btnFechar} onPress={() => setModalOpen(!modalOpen)}>
-                    <Text style={{ fontSize: 20, flex: 1, justifyContent: 'center', alignItems: 'center', margin: 5, marginTop: -6 }}></Text>
-                    <Icon name="times" size={40} color="#FFF" />
-                </TouchableOpacity>
-            </Modal>
+
+
 
             {
 
-                capturaPhoto &&
+                /* capturaPhoto &&
                 <Modal name="modalFoto" animationType="slide" transparent={false} visible={modalOpen}>
                     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
 
@@ -325,8 +338,7 @@ export default function Camera({ navigation }) {
                 </Modal>
 
 
-                ||
-
+                || */
 
                 videoSource &&
                 <Modal name="modalVideo" animationType="slide" transparent={false} visible={modalOpen}>
@@ -335,17 +347,28 @@ export default function Camera({ navigation }) {
                         <Video
                             ref={video}
                             source={{ uri: videoSource }}
-                            style={{ position: 'absolute', top: 0, left: 0, bottom: 0, right: 0 }}
+                            style={{ position: 'absolute', top: '8%', left: '-112%', bottom: 0, right: 0, transform: [{ rotate: '90deg' }], width: '212%', height: '100%' }}
                         />
 
                         <TouchableOpacity style={styles.btnFechar} onPress={() => setModalOpen(!modalOpen)}>
                             <Text style={{ fontSize: 20, flex: 1, justifyContent: 'center', alignItems: 'center', margin: 5, marginTop: -6 }}></Text>
-                            <Icon name="times" size={40} color="#FFF" />
+                            <Icon name="times" size={40} color="#00D58B" style={{
+                                shadowOpacity: 0.25,
+                                shadowRadius: 3.84,
+                                elevation: 5,
+                            }} />
                         </TouchableOpacity>
 
 
                         <TouchableOpacity style={styles.btnSalvar} onPress={saveVideo}>
-                            <Icon name="save" size={40} style={{ top: -5 }} />
+                            <Icon name="save" size={40} color="#00D58B" style={{
+                                top: -5,
+                                shadowOpacity: 0.25,
+                                shadowRadius: 3.84,
+                                elevation: 5,
+                                transform: [{ rotate: '90deg' }],
+
+                            }} />
                         </TouchableOpacity>
                     </View>
                 </Modal>
@@ -389,7 +412,7 @@ const styles = StyleSheet.create({
         padding: 10,
         height: 50,
         position: 'absolute',
-        right: 25,
+        right: 310,
         top: 750,
     },
     back: {
