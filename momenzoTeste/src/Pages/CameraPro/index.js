@@ -72,7 +72,7 @@ export default function Camera({ navigation }) {
                 },
                 {
                     text: 'Salvar',
-                    onPress: () => savePicture(videoSource) ? (ToastAndroid.show("Salvo com sucesso", ToastAndroid.SHORT)) ? setModalOpen(false) : ToastAndroid.show("Erro ao salvar video", ToastAndroid.SHORT) :''
+                    onPress: () => savePicture(videoSource) ? ToastAndroid.show("Salvo com sucesso", ToastAndroid.SHORT) : ToastAndroid.show("Erro ao salvar video", ToastAndroid.SHORT)
                     
                 },
                    

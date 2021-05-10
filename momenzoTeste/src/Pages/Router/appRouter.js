@@ -409,17 +409,22 @@ const styles = StyleSheet.create({
 
     },
     btnAprendizado: {
-        backgroundColor: '#6FBAEB',
+        backgroundColor: '#00D58B',
         width: '47%',
         height: 250,
         marginEnd: 7,
-        borderRadius: 5
+        borderRadius: 5,
+        justifyContent:'center',
+        alignItems:'center',
+        
     },
     btnProfissional: {
-        backgroundColor: '#6FBAEB',
+        backgroundColor: '#00D58B',
         height: 250,
         width: '47%',
-        borderRadius: 5
+        borderRadius: 5,
+        justifyContent:'center',
+        alignItems:'center'
 
     },
     container: {
@@ -464,7 +469,7 @@ const styles = StyleSheet.create({
     },
     textModal: {
         fontSize: 18,
-        color: '#9B05EB'
+        color: '#00D58B'
     },
 
 
