@@ -2,12 +2,18 @@ import React, { useState } from 'react'
 import { Picker as RNPickerSelect } from '@react-native-picker/picker';
 import { PickerView } from './styles';
 import { View, Text, SafeAreaView, StyleSheet, Switch } from 'react-native';
+import {useDispatch, useSelector} from 'react-redux'
 import LinearGradient from 'react-native-linear-gradient';
+import {resolutionCam} from '../../Redux/ConfigCam/action'
 
 export default function Settings() {
     const [qualidade, setQualidade] = useState();
     const [estabilidade, setEstabilidade] = useState(false)
     const [dicas, setDicas] = useState(false)
+    const dispatch = useDispatch()
+
+    const settingCam = useSelector((state) => state.resolutionCam.resolutionCam)
+    
 
     const estabili = () => setEstabilidade(previousState => !previousState)
     const dicasVideo = () => setDicas(previousState => !previousState)
@@ -22,8 +28,8 @@ export default function Settings() {
                         style={{
                             width: '100%'
                         }}
-                        selectedValue={qualidade}
-                        onValueChange={(valor) => setQualidade(valor)}
+                        selectedValue={settingCam}
+                        onValueChange={(valor) => dispatch(resolutionCam(valor)) }
                     >
                         <RNPickerSelect.Item label="720p" value="720p" />
                         <RNPickerSelect.Item label="1080p" value="1080p" />
