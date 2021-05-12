@@ -115,14 +115,14 @@ const styles = StyleSheet.create({
         width: '100%',
         height: 50,
         borderRadius: 10,
-        backgroundColor: '#00D58B',
+        backgroundColor: '#3791A6',
         justifyContent: 'center',
         alignItems: 'center',
         marginTop: 40
     },
 
     btnAprendiz: {
-        backgroundColor: '#00D58B',
+        backgroundColor: '#3791A6',
         marginBottom: '2%',
         marginTop: '3%',
         width: '50%',
@@ -142,7 +142,7 @@ const styles = StyleSheet.create({
     },
 
     btnPro: {
-        backgroundColor: '#00D58B',
+        backgroundColor: '#3791A6',
         marginBottom: '2%',
         marginTop: '3%',
         width: '50%',

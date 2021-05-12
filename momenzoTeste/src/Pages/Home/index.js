@@ -1,5 +1,17 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { View, Text, SafeAreaView, StyleSheet, TouchableOpacity, ScrollView, StatusBar, FlatList, Modal, Image } from 'react-native';
+import { 
+    View, 
+    Text, 
+    SafeAreaView, 
+    StyleSheet, 
+    TouchableOpacity, 
+    ScrollView, 
+    StatusBar, 
+    FlatList, 
+    Modal, 
+    Image,
+    KeyboardAvoidingView
+} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Video from 'react-native-video';
 import ModalOpen from '../Modal';
@@ -8,6 +20,7 @@ import ListaVideos from '../Home/listaVideos';
 
 
 import { AuthContext } from '../Context/auth'
+import { Platform } from 'react-native';
 
 
 
@@ -30,7 +43,7 @@ function Home({ navigation }) {
     useEffect(() => {
         rollVideos()
         setModalNewProject(true)
-
+        
         console.log(user)
     }, [])
 
@@ -61,7 +74,7 @@ function Home({ navigation }) {
 
     return (
 
-        <View style={styles.container}>
+        <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'height' : 'padding'} style={styles.container}>
             <StatusBar hidden={true} />
           
                 <View style={styles.body} >
@@ -86,7 +99,7 @@ function Home({ navigation }) {
 
 
            
-        </View>
+        </KeyboardAvoidingView>
 
 
 

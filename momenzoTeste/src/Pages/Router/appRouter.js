@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { View, Text, StyleSheet, TextInput, TouchableOpacity, Image } from 'react-native'
 import { createDrawerNavigator, DrawerItem } from '@react-navigation/drawer';
 import { createStackNavigator } from '@react-navigation/stack';
+import Logo from '../../Assets/logo.png';
 
 
 const Drawer = createDrawerNavigator();
@@ -56,7 +57,7 @@ function RouterSecundaria() {
                     fontWeight: 'bold'
                 },
                 activeTintColor: '#FFF',
-                activeBackgroundColor: '#00D58B',
+                activeBackgroundColor: '#3791A6',
                 inactiveBackgroundColor: '#025F3F',
                 inactiveTintColor: '#FFF',
                 itemStyle: {
@@ -64,10 +65,10 @@ function RouterSecundaria() {
 
                 },
             }}>
-            <Drawer.Screen name="Projects" component={Home} options={{ headerShown: true, headerTintColor: '#FFF', headerStyle: { backgroundColor: '#00D58B' } }} />
-            <Drawer.Screen name="Videos" component={Videos} options={{ headerShown: true, headerTintColor: '#FFF', headerStyle: { backgroundColor: '#00D58B' } }} />
-            <Drawer.Screen name="Setting" component={Settings} options={{ headerShown: true, headerTintColor: '#FFF', headerStyle: { backgroundColor: '#00D58B' } }} />
-            <Drawer.Screen name="Conta" component={InfoUser} options={{ headerShown: true, headerTintColor: '#FFF', headerStyle: { backgroundColor: '#00D58B' } }} />
+            <Drawer.Screen name="Projects" component={Home} options={{ headerShown: true, headerTintColor: '#FFF', headerStyle: { backgroundColor: '#3791A6' } }} />
+            <Drawer.Screen name="Videos" component={Videos} options={{ headerShown: true, headerTintColor: '#FFF', headerStyle: { backgroundColor: '#3791A6' } }} />
+            <Drawer.Screen name="Setting" component={Settings} options={{ headerShown: true, headerTintColor: '#FFF', headerStyle: { backgroundColor: '#3791A6' } }} />
+            <Drawer.Screen name="Conta" component={InfoUser} options={{ headerShown: true, headerTintColor: '#FFF', headerStyle: { backgroundColor: '#3791A6' } }} />
         </Drawer.Navigator>
     )
 }
@@ -103,8 +104,8 @@ function Cadastro({ navigation }) {
 
             <View style={{ justifyContent: 'center', alignItems: 'center', marginBottom: '4%' }}>
                 <View style={{ justifyContent: 'center', alignItems: 'center', display: 'flex', flexDirection: 'row', marginTop: '10%', marginBottom: '5%' }}>
-                    <Image style={{ width: 50, height: 50, marginEnd: 10 }} source={{ uri: 'https://reactnative.dev/img/tiny_logo.png' }} />
-                    <Text style={{ fontSize: 20 }}>Projeto Nome e logo</Text>
+                    <Image style={{ width: 290, height: 110, marginEnd: 10 }} source={Logo} />
+                    
                 </View>
                 <Text style={{ textAlign: 'center', top: 10, fontSize: 17 }}>Selecione o tipo de Video que voce quer gravar</Text>
             </View>
@@ -409,7 +410,7 @@ const styles = StyleSheet.create({
 
     },
     btnAprendizado: {
-        backgroundColor: '#00D58B',
+        backgroundColor: '#3791A6',
         width: '47%',
         height: 250,
         marginEnd: 7,
@@ -419,7 +420,7 @@ const styles = StyleSheet.create({
         
     },
     btnProfissional: {
-        backgroundColor: '#00D58B',
+        backgroundColor: '#3791A6',
         height: 250,
         width: '47%',
         borderRadius: 5,
@@ -469,7 +470,7 @@ const styles = StyleSheet.create({
     },
     textModal: {
         fontSize: 18,
-        color: '#00D58B'
+        color: '#3791A6'
     },
 
 

@@ -1,6 +1,17 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { View, Text, StyleSheet, KeyboardAvoidingView, TextInput, Platform, TouchableOpacity, StatusBar } from 'react-native';
+import { 
+    View, 
+    Text, 
+    StyleSheet, 
+    KeyboardAvoidingView, 
+    TextInput, 
+    Platform, 
+    TouchableOpacity, 
+    StatusBar,
+    Image
+ } from 'react-native';
 import LinearGradient  from 'react-native-linear-gradient';
+import Logo from '../../Assets/logo.png';
 
 import {AuthContext} from '../Context/auth'
 
@@ -25,7 +36,7 @@ export default function Login({ navigation }) {
 
             
             <KeyboardAvoidingView style={styles.key} behavior={Platform.OS === 'ios' ? 'padding' : ''} enabled>
-
+        <Image source={Logo} style={{width:260, height:100, marginBottom:'6%'}}/>
                 <View style={styles.areaInpur}>
                     <TextInput
                         style={styles.inputs}
@@ -89,7 +100,7 @@ const styles = StyleSheet.create({
     btnLogar: {
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#17BC70',
+        backgroundColor: '#3791A6',
         width: '90%',
         height: 45,
         borderRadius: 7,

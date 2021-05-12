@@ -12,7 +12,9 @@ import {
     Platform,
     Alert,
     ToastAndroid,
-    Animated
+    Animated,
+    KeyboardAvoidingView,
+    
 
 } from 'react-native';
 import Video from 'react-native-video';
@@ -237,7 +239,7 @@ export default function Camera({ navigation }) {
 
     return (
 
-        <View style={styles.container}>
+        <KeyboardAvoidingView behavior={Platform.OS === 'android' ? 'height' : 'padding'} style={styles.container}>
 
             <StatusBar hidden={true} />
             <RNCamera
@@ -374,7 +376,7 @@ export default function Camera({ navigation }) {
                 </Modal>
             }
 
-        </View>
+        </KeyboardAvoidingView>
     )
 }
 

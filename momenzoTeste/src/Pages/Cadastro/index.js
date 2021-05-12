@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
     btnLogar: {
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#17BC70',
+        backgroundColor: '#3791A6',
         width: '90%',
         height: 45,
         borderRadius: 7,

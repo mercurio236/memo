@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
     btnSair:{
         alignItems:'center',
         marginTop:'10%',
-        backgroundColor:'#17BC70',
+        backgroundColor:'#3791A6',
         margin: 100,
         height: 45,
         justifyContent:'center',
