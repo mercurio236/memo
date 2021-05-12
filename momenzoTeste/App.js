@@ -13,7 +13,7 @@ function App() {
   return (
     <NavigationContainer>
       <AuthProvider>
-        <StatusBar backgroundColor="#131313" barStyle="light-content" />
+        <StatusBar hidden={true} backgroundColor="#131313" barStyle="light-content" />
         <Router />
         
       </AuthProvider>
