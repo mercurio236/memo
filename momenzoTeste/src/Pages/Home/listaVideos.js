@@ -1,10 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, StyleSheet, Image } from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
-
 
 export default function ListaVideos({ data }) {
-
 
 
     return (

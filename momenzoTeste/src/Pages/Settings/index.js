@@ -1,10 +1,11 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Picker as RNPickerSelect } from '@react-native-picker/picker';
 import { PickerView } from './styles';
 import { View, Text, SafeAreaView, StyleSheet, Switch } from 'react-native';
-import {useDispatch, useSelector} from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import LinearGradient from 'react-native-linear-gradient';
-import {resolutionCam} from '../../Redux/ConfigCam/action'
+import { resolutionCam, selectedRes } from '../../Redux/ConfigCam/action'
+import AsyncStorange from '@react-native-async-storage/async-storage';
 
 export default function Settings() {
     const [qualidade, setQualidade] = useState();
@@ -13,14 +14,32 @@ export default function Settings() {
     const dispatch = useDispatch()
 
     const settingCam = useSelector((state) => state.resolutionCam.resolutionCam)
-    
+    const select = useSelector((state) => state.resolutionCam.selectedRes)
+
 
     const estabili = () => setEstabilidade(previousState => !previousState)
     const dicasVideo = () => setDicas(previousState => !previousState)
 
+    useEffect(() => {
+        //incia com o valor salvo no asyncStorage
+        async function loadQualidadeVideo(){
+            const storageResolution = await AsyncStorange.getItem('resolution')
+            
+            if(storageResolution){
+               dispatch(resolutionCam(storageResolution))
+            }
+        }
+        loadQualidadeVideo()
+    }, [])
+
+    //salvar a qualidade no asyncStorage
+    async function qualidadeVideo(data){
+        await AsyncStorange.setItem('resolution', settingCam)
+    }
+
     return (
         <SafeAreaView style={styles.container}>
-           
+
             <View style={styles.body}>
                 <Text style={styles.text}>Qualidade do Video</Text>
                 <PickerView>
@@ -29,7 +48,7 @@ export default function Settings() {
                             width: '100%'
                         }}
                         selectedValue={settingCam}
-                        onValueChange={(valor) => dispatch(resolutionCam(valor)) }
+                        onValueChange={(valor) => qualidadeVideo(dispatch(resolutionCam(valor)))}
                     >
                         <RNPickerSelect.Item label="720p" value="720p" />
                         <RNPickerSelect.Item label="1080p" value="1080p" />
@@ -54,7 +73,7 @@ export default function Settings() {
                     />
                 </View>
             </View>
-        
+
         </SafeAreaView>
     )
 }

@@ -1,14 +1,14 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { 
-    View, 
-    Text, 
-    SafeAreaView, 
-    StyleSheet, 
-    TouchableOpacity, 
-    ScrollView, 
-    StatusBar, 
-    FlatList, 
-    Modal, 
+import {
+    View,
+    Text,
+    SafeAreaView,
+    StyleSheet,
+    TouchableOpacity,
+    ScrollView,
+    StatusBar,
+    FlatList,
+    Modal,
     Image,
     KeyboardAvoidingView
 } from 'react-native';
@@ -17,16 +17,21 @@ import Video from 'react-native-video';
 import ModalOpen from '../Modal';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import ListaVideos from '../Home/listaVideos';
+import { useDispatch, useSelector } from 'react-redux'
 
 
 import { AuthContext } from '../Context/auth'
 import { Platform } from 'react-native';
+import { resolutionCam, selectedRes } from '../../Redux/ConfigCam/action'
+
+
 
 
 
 function Home({ navigation }) {
     const [modalNewProject, setModalNewProject] = useState(false);
     const [modal, setModal] = useState(false)
+    const [teste, setTeste] = useState('')
     const [videos, setVideos] = useState([]);
     const [listVideo, setListVideo] = useState([
         { id: '1', title: 'video 1', date: '20/04/2021', hora: '15:11' },
@@ -36,17 +41,26 @@ function Home({ navigation }) {
     ])
 
     const { user, signOut } = useContext(AuthContext)
+    const settingCam = useSelector((state) => state.resolutionCam.resolutionCam)
+    const dispatch = useDispatch()
 
 
-    const STORAGE_KEY = '@save_video';
+    const STORAGE_KEY = 'save_video';
+    const R = 'resolution';
 
     useEffect(() => {
         rollVideos()
         setModalNewProject(true)
-        
+        testeS()
         console.log(user)
     }, [])
 
+   async function testeS(){
+        const c = await AsyncStorage.getItem(R)
+        setTeste(c)
+        
+    }
+    
 
 
     const clearData = async () => {
@@ -76,29 +90,29 @@ function Home({ navigation }) {
 
         <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'height' : 'padding'} style={styles.container}>
             <StatusBar hidden={true} />
-          
-                <View style={styles.body} >
 
-                    <FlatList
-                        data={listVideo}
-                        keyExtractor={item => item.id}
-                        renderItem={({ item }) => <ListaVideos data={item} />}
+            <View style={styles.body} >
 
-                    />
-                    
+                <FlatList
+                    data={listVideo}
+                    keyExtractor={item => item.id}
+                    renderItem={({ item }) => <ListaVideos data={item} />}
 
-
-                    <TouchableOpacity style={styles.btnAdd} onPress={() => setModal(true)}>
-                        <Icon name="plus" size={30} />
-                    </TouchableOpacity>
-
-                </View>
-                <ModalOpen show={modal} close={() => setModal(false)} navigation={navigation} />
-
-               
+                />
+                <Text style={{color:'#000'}}>{teste}</Text>
 
 
-           
+                <TouchableOpacity style={styles.btnAdd} onPress={() => setModal(true)}>
+                    <Icon name="plus" size={30} />
+                </TouchableOpacity>
+
+            </View>
+            <ModalOpen show={modal} close={() => setModal(false)} navigation={navigation} />
+
+
+
+
+
         </KeyboardAvoidingView>
 
 

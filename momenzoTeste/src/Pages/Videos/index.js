@@ -12,16 +12,19 @@ import LinearGradient from 'react-native-linear-gradient';
 
 export default function Videos() {
     const [videos, setVideos] = useState([])
+    const [teste, setTeste] = useState([])
     const [rolo, setRolo] = useState([{id:'1', title:'Video 1', date:'20/04/2021', hora:'15:20'}])
 
-    const STORAGE_KEY = '@save_video'
+    const STORAGE_KEY = 'save_video'
 
 
     useEffect(() => {
         roloVideos()
-
+       
 
     }, [])
+
+    
 
 
 
@@ -30,7 +33,7 @@ export default function Videos() {
             await AsyncStorage.clear()
             console.log('Async limpo com sucesso')
         } catch (e) {
-            console.log('Erro ao limpar' + e)
+            console.log('Erro ao limpar', e)
         }
     }
 
@@ -43,7 +46,7 @@ export default function Videos() {
             const {videos} = v
             if (v !== null) {
                 setRolo(videos)
-                console.log(videos)
+                console.log("Rolo ", videos)
             }
         } catch (e) {
             console.log('Erro ao consultar ' + e)
@@ -106,6 +109,8 @@ export default function Videos() {
                         keyExtractor={item => item.id}
                         renderItem={({ item }) => <ListaDeVideos data={item}/> }
                     />
+                    
+                
 
                     <TouchableOpacity onPress={clearData}>
                         <Text style={{color:'#000'}}>Limpar Storage</Text>

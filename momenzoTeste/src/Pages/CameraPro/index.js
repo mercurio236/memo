@@ -51,7 +51,7 @@ export default function Camera({ navigation }) {
 
     const cameraRef = useRef();
     const video = useRef(null)
-    const STORAGE_KEY = '@save_video'
+    const STORAGE_KEY = 'save_video'
 
 
 

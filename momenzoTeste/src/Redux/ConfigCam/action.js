@@ -5,3 +5,9 @@ export const resolutionCam = evento =>({
     payload: evento
 })
 
+export const SELECTED_RESOLUTION = 'SELECTED_RESOLUTION';
+
+export const selectedRes = evento => ({
+    type: SELECTED_RESOLUTION,
+    payload: evento
+})

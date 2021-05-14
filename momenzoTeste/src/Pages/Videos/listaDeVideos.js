@@ -7,7 +7,7 @@ export default function ListaDeVideos({ data }) {
 
     return (
         <ScrollView>
-
+            
             {
                 data !== null ?
 
