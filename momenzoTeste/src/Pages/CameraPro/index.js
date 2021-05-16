@@ -119,7 +119,7 @@ export default function Camera({ navigation }) {
     }
 
     async function salvarAsync() {
-        await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(salvarVideoStorage))
+        await AsyncStorage.multiSet([STORAGE_KEY, JSON.stringify(salvarVideoStorage)])
         console.log('Storage salvo com sucesso')
     }
 
