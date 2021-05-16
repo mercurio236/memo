@@ -14,7 +14,7 @@ import {
     ToastAndroid,
     Animated,
     KeyboardAvoidingView,
-    
+
 
 } from 'react-native';
 import Video from 'react-native-video';
@@ -25,8 +25,12 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import LottieView from 'lottie-react-native';
 import { launchImageLibrary } from 'react-native-image-picker';
+import { useDispatch, useSelector } from 'react-redux';
+import { saveVideoList } from '../../Redux/ConfigCam/action';
+
 
 import Arrow from '../../Assets/arrow.json'
+import { Easing } from 'react-native';
 
 
 
@@ -41,8 +45,13 @@ export default function Camera({ navigation }) {
     const [capturaPhoto, setCapturaPhoto] = useState(null)
     const [cameraType, setCameraType] = useState(RNCamera.Constants.Type.back)
     const [album, setAlbum] = useState(null)
-
     const [modalAlbum, setModalAlbum] = useState(false)
+    const [tamanho, setTamanho] = useState(new Animated.Value(0))
+
+
+    const dispatch = useDispatch();
+    const salvarVideoStorage = useSelector((state) => state.resolutionCam.saveVideoList)
+
 
 
 
@@ -56,16 +65,25 @@ export default function Camera({ navigation }) {
 
 
     useEffect(() => {
+
+
         (async () => {
             const { status } = await PermissionsAndroid.request(permission)
             return status
+
         })
+
+        Animated.timing(tamanho, { toValue: 690, duration: 8000, easing: Easing.linear }).start()
+
 
     }, [])
 
     const saveVideo = () => {
-        if (!saveVideos) return 
+        if (!saveVideos) return
         videoSave(saveVideos)
+        salvarAsync()
+        //dispatch(saveVideoList(saveVideos))
+
         Alert.alert('Video ', 'Deseja salvar o video em sua galeria?',
             [
                 {
@@ -75,9 +93,9 @@ export default function Camera({ navigation }) {
                 {
                     text: 'Salvar',
                     onPress: () => savePicture(videoSource) ? ToastAndroid.show("Salvo com sucesso", ToastAndroid.SHORT) : ToastAndroid.show("Erro ao salvar video", ToastAndroid.SHORT)
-                    
+
                 },
-                   
+
             ]
         )
         //setSaveVideo(saveVideos)
@@ -100,8 +118,14 @@ export default function Camera({ navigation }) {
 
     }
 
+    async function salvarAsync() {
+        await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(salvarVideoStorage))
+        console.log('Storage salvo com sucesso')
+    }
+
     const videoSave = async () => {
         let newVideo = { ...saveVideos }
+
         let listVideos = {
             id: new Date().getTime(),
             uri: videoSource
@@ -109,8 +133,9 @@ export default function Camera({ navigation }) {
         newVideo.videos.push(listVideos)
 
         try {
-            await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(newVideo))
-            console.log('Storage salvo com sucesso')
+            dispatch(saveVideoList(newVideo))
+            console.log('Salvo no Redux com sucesso')
+
             console.log(JSON.stringify(listVideos))
         } catch (e) {
             console.log('Erro ao salvar ' + e)
@@ -295,24 +320,27 @@ export default function Camera({ navigation }) {
                                     <Icon style={{ transform: [{ rotate: '90deg' }] }} name="image" size={50} color="#FFF" />
                                 </TouchableOpacity>
                             </View>
+                            <Animated.View style={{ top: tamanho, backgroundColor: '#FFF' }}>
+                                <LottieView source={Arrow} autoPlay loop style={{ width: 100, height: 100, top: -400 }} />
+                            </Animated.View>
                         </View>
                     )
                 }}
 
             </RNCamera>
-                
-                
-                {album && <Modal animationType="slide" transparent={false} visible={modalAlbum}>
-                    <Video
-                        style={{ position: 'absolute', top: '8%', left: '-112%', bottom: 0, right: 0, transform: [{ rotate: '90deg' }], width: '212%', height: '100%' }}
-                        source={{ uri: album }}
 
-                    />
-                    <TouchableOpacity style={styles.btnFechar} onPress={() => setModalAlbum(!modalAlbum)}>
-                        <Text style={{ fontSize: 20, flex: 1, justifyContent: 'center', alignItems: 'center', margin: 5, marginTop: -6 }}></Text>
-                        <Icon name="times" size={40} color="#00D58B" />
-                    </TouchableOpacity>
-                </Modal>}
+
+            {album && <Modal animationType="slide" transparent={false} visible={modalAlbum}>
+                <Video
+                    style={{ position: 'absolute', top: '8%', left: '-112%', bottom: 0, right: 0, transform: [{ rotate: '90deg' }], width: '212%', height: '100%' }}
+                    source={{ uri: album }}
+
+                />
+                <TouchableOpacity style={styles.btnFechar} onPress={() => setModalAlbum(!modalAlbum)}>
+                    <Text style={{ fontSize: 20, flex: 1, justifyContent: 'center', alignItems: 'center', margin: 5, marginTop: -6 }}></Text>
+                    <Icon name="times" size={40} color="#00D58B" />
+                </TouchableOpacity>
+            </Modal>}
 
 
 
@@ -426,7 +454,8 @@ const styles = StyleSheet.create({
     },
     btns: {
         marginTop: -760,
-        left: -160
+        left: -160,
+
     }
 
 })

@@ -3,7 +3,6 @@ import { Picker as RNPickerSelect } from '@react-native-picker/picker';
 import { PickerView } from './styles';
 import { View, Text, SafeAreaView, StyleSheet, Switch } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux'
-import LinearGradient from 'react-native-linear-gradient';
 import { resolutionCam, selectedRes } from '../../Redux/ConfigCam/action'
 import AsyncStorange from '@react-native-async-storage/async-storage';
 
@@ -14,7 +13,7 @@ export default function Settings() {
     const dispatch = useDispatch()
 
     const settingCam = useSelector((state) => state.resolutionCam.resolutionCam)
-    const select = useSelector((state) => state.resolutionCam.selectedRes)
+  
 
 
     const estabili = () => setEstabilidade(previousState => !previousState)

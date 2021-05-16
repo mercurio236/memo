@@ -35,7 +35,7 @@ export default function Login({ navigation }) {
             <StatusBar hidden={true} />
 
             
-            <KeyboardAvoidingView style={styles.key} behavior={Platform.OS === 'ios' ? 'padding' : ''} enabled>
+            <KeyboardAvoidingView style={styles.key} behavior={Platform.OS === 'android' ? 'padding' : ''} enabled>
         <Image source={Logo} style={{width:260, height:100, marginBottom:'6%'}}/>
                 <View style={styles.areaInpur}>
                     <TextInput
@@ -57,6 +57,7 @@ export default function Login({ navigation }) {
                         autoCorrect={false}
                         value={password}
                         onChangeText={(text) => setPassword(text)}
+                        secureTextEntry={true}
                     />
                 </View>
 
@@ -92,7 +93,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(0,0,0,0.20)',
         width: '90%',
         fontSize: 19,
-        color: '#FFF',
+        color: '#000',
         marginBottom: 15,
         padding: 10,
         borderRadius: 7

@@ -1,27 +1,43 @@
-import React, { useState } from 'react';
-import { View, Text, ScrollView, TouchableOpacity, StyleSheet, Image } from 'react-native';
+import React, { useState, useEffect, useRef } from 'react';
+import { View, Text, ScrollView, TouchableOpacity, StyleSheet, Image, Modal, RefreshControl } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useSelector } from 'react-redux';
+import Video from 'react-native-video';
 
 export default function ListaDeVideos({ data }) {
 
+    const [modal, setModal] = useState(false)
+
+    const video = useRef(null)
+    const v = useSelector((state) => state.resolutionCam.saveVideoList)
+    console.log('Videos salvos: ', v)
 
 
     return (
-        <ScrollView>
-            
+        <ScrollView >
+
             {
                 data !== null ?
+                    <View>
+                        <TouchableOpacity style={styles.listaVideos} onPress={() => setModal(!modal)}>
+                            <Text>ID: {data.id}</Text>
+                            <Text>Uri: {data.uri}</Text>
+                        </TouchableOpacity>
 
-                    <TouchableOpacity style={styles.listaVideos} onPress={() => { }}>
-                        <Image style={styles.img} source={{ uri: 'https://reactnative.dev/img/tiny_logo.png' }} />
-                        <View style={styles.textPosition}>
-                            <Text style={{ color: '#FFF', fontSize: 20 }}>Titulo: {data.title}</Text>
-                            <Text style={{ color: '#FFF', fontSize: 20 }}>Data: {data.date}</Text>
-                            <Text style={{ color: '#FFF', fontSize: 20 }}>Hora: {data.hora}</Text>
-                        </View>
-                    </TouchableOpacity>
+                        <Modal key={data.id} visible={modal} transparent={false}>
+                            <TouchableOpacity onPress={() => setModal(!modal)}>
+                                <Text>Fechar</Text>
+                            </TouchableOpacity>
+                            <Video
+                                ref={video}
+                                source={{ uri: data.uri }}
+                                style={{ position: 'absolute', top: '8%', left: '-112%', bottom: 0, right: 0, transform: [{ rotate: '90deg' }], width: '212%', height: '100%' }}
+                            />
+                        </Modal>
+                    </View>
 
                     :
-                    <Text style={{ color: '#FFF', fontSize: 20 }}>Galeria vazia</Text>
+                    <Text style={{ color: '#FFF', fontSize: 20 }}>Galeria vazia{data}</Text>
             }
 
         </ScrollView>
@@ -46,10 +62,10 @@ const styles = StyleSheet.create({
         top: 40
     },
 
-    textPosition:{
+    textPosition: {
         top: -40,
-        marginLeft:110,
+        marginLeft: 110,
         top: -45
-        
+
     }
 })

@@ -1,8 +1,10 @@
-import { RESOLUTION_CAM, SELECTED_RESOLUTION } from './action';
+import { RESOLUTION_CAM, SAVE_VIDEO, VIDEO_ASYNC } from './action';
 
 const initialState = {
-    resolutionCam: '720p',
-    selectedRes: ''
+    resolutionCam: '',
+    saveVideoList: [],
+
+    
 }
 
 export default (state = initialState, { type, payload }) => {
@@ -12,11 +14,12 @@ export default (state = initialState, { type, payload }) => {
                 ...state,
                 resolutionCam: payload
             }
-        case SELECTED_RESOLUTION:
-            return {
+        case SAVE_VIDEO:
+            return{
                 ...state,
-                selectedRes: payload
+                saveVideoList: payload
             }
+       
 
         default:
             return state

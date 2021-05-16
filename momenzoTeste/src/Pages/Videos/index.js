@@ -1,36 +1,81 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, SafeAreaView, Text, StyleSheet, ScrollView, Image, TouchableOpacity, FlatList } from 'react-native';
+import { View, SafeAreaView, Text, StyleSheet, ScrollView, Image, TouchableOpacity, FlatList, RefreshControl } from 'react-native';
 import { launchImageLibrary } from 'react-native-image-picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Video from 'react-native-video';
 import ListaDeVideos from '../Videos/listaDeVideos';
 import LinearGradient from 'react-native-linear-gradient';
-
+import { useSelector, useDispatch } from 'react-redux'
+import { saveVideoList } from '../../Redux/ConfigCam/action';
 
 
 
 
 export default function Videos() {
-    const [videos, setVideos] = useState([])
+    const [videos, setVideos] = useState([{}])
     const [teste, setTeste] = useState([])
-    const [rolo, setRolo] = useState([{id:'1', title:'Video 1', date:'20/04/2021', hora:'15:20'}])
+    const [rolo, setRolo] = useState([{ id: '1', title: 'Video 1', date: '20/04/2021', hora: '15:20' }])
+    const [refresh, setRefresh] = useState(false)
+    const dispatch = useDispatch()
+
+    const videoSalvo = useSelector((state) => state.resolutionCam.saveVideoList)
+
+
+    const wait = (timeout) => {
+        return new Promise(resolve => setTimeout(resolve, timeout))
+    }
 
     const STORAGE_KEY = 'save_video'
+    const onRefresh = React.useCallback(() => {
+        setRefresh(true)
+        wait(2000).then(() => setRefresh(false))
+
+        async function roloVideos() {
+            const userVideo = await AsyncStorage.getItem('save_video')
+            const reverso = JSON.parse(userVideo)
+            dispatch(saveVideoList(reverso))
+            const { videos } = reverso
+    
+                if (videos !== null) {
+                    setRolo(videos)
+                    console.log("Rolo ", userVideo)
+                    console.log('Videos salvos no Redux: ', videoSalvo)
+                    console.log('Videos: ', videos)
+                }
+           
+        }
+        roloVideos()
+    }, [])
+
 
 
     useEffect(() => {
-        roloVideos()
+        //roloVideos()
+        onRefresh()
        
-
+       
     }, [])
-
     
 
 
+    /* async function roloVideos() {
+        const userVideo = await AsyncStorage.getItem('save_video')
+        const reverso = JSON.parse(userVideo)
+        dispatch(saveVideoList(reverso))
+        const { videos } = reverso
+
+            if (videos !== null) {
+                setRolo(videos)
+                console.log("Rolo ", userVideo)
+                console.log('Videos salvos no Redux: ', videoSalvo)
+                console.log('Videos: ', videos)
+            }
+       
+    } */
 
     const clearData = async () => {
         try {
-            await AsyncStorage.clear()
+            await AsyncStorage.removeItem(STORAGE_KEY)
             console.log('Async limpo com sucesso')
         } catch (e) {
             console.log('Erro ao limpar', e)
@@ -38,20 +83,7 @@ export default function Videos() {
     }
 
 
-    const roloVideos = async () => {
 
-        try {
-            const userVideo = await AsyncStorage.getItem(STORAGE_KEY)
-            const v = JSON.parse(userVideo)
-            const {videos} = v
-            if (v !== null) {
-                setRolo(videos)
-                console.log("Rolo ", videos)
-            }
-        } catch (e) {
-            console.log('Erro ao consultar ' + e)
-        }
-    }
 
     function ListVideo() {
         return (
@@ -98,28 +130,29 @@ export default function Videos() {
     } */
 
     return (
-        <View style={styles.container}>
-             
-            <ScrollView style={{ flex: 1 }}>
+        <SafeAreaView style={styles.container}>
+
+            <ScrollView refreshControl={<RefreshControl refreshing={refresh} onRefresh={onRefresh} />} style={{ flex: 1 }}>
                 <View style={styles.body}>
-                    <Text style={styles.text}>Não há videos em sua Galeria </Text>
+
 
                     <FlatList
                         data={rolo}
                         keyExtractor={item => item.id}
-                        renderItem={({ item }) => <ListaDeVideos data={item}/> }
+                        renderItem={({ item }) => <ListaDeVideos data={item} />}
+
                     />
-                    
-                
+
+
 
                     <TouchableOpacity onPress={clearData}>
-                        <Text style={{color:'#000'}}>Limpar Storage</Text>
+                        <Text style={{ color: '#000' }}>Limpar Storage</Text>
                     </TouchableOpacity>
 
                 </View>
             </ScrollView>
-            
-        </View>
+
+        </SafeAreaView>
     )
 }
 

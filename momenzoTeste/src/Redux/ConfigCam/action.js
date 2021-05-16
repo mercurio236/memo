@@ -5,9 +5,10 @@ export const resolutionCam = evento =>({
     payload: evento
 })
 
-export const SELECTED_RESOLUTION = 'SELECTED_RESOLUTION';
+export const SAVE_VIDEO = "SAVE_VIDEO";
 
-export const selectedRes = evento => ({
-    type: SELECTED_RESOLUTION,
+export const saveVideoList = evento =>({
+    type: SAVE_VIDEO,
     payload: evento
 })
+
