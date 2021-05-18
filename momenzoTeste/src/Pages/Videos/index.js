@@ -25,16 +25,17 @@ export default function Videos() {
         return new Promise(resolve => setTimeout(resolve, timeout))
     }
 
-    const STORAGE_KEY = 'save_video'
+    const STORAGE_KEY = 'item'
     const onRefresh = React.useCallback(() => {
         setRefresh(true)
         wait(2000).then(() => setRefresh(false))
 
         async function roloVideos() {
-            const userVideo = await AsyncStorage.getItem('save_video')
+            try{
+            const userVideo = await AsyncStorage.getItem(STORAGE_KEY)
             const reverso = JSON.parse(userVideo)
-            dispatch(saveVideoList(reverso))
             const { videos } = reverso
+            
     
                 if (videos !== null) {
                     setRolo(videos)
@@ -42,7 +43,10 @@ export default function Videos() {
                     console.log('Videos salvos no Redux: ', videoSalvo)
                     console.log('Videos: ', videos)
                 }
-           
+            }
+            catch(err){
+                console.log('Erro ao carregar')
+            }
         }
         roloVideos()
     }, [])

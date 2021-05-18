@@ -118,9 +118,22 @@ export default function Camera({ navigation }) {
 
     }
 
-    async function salvarAsync() {
-        await AsyncStorage.multiSet([STORAGE_KEY, JSON.stringify(salvarVideoStorage)])
-        console.log('Storage salvo com sucesso')
+    async function salvarAsync(listVideos) {
+        /* listVideos = new Date().getTime()
+        let save = [];
+        const response = await AsyncStorage.getItem('items');
+
+        if(response) save = JSON.parse(response);
+        save.push(listVideos);
+        //console.log('Teste', response)
+        
+        return AsyncStorage.setItem('items', JSON.stringify(save)) */
+        try{
+            await AsyncStorage.setItem('item', JSON.stringify(salvarVideoStorage))
+            console.log('Storage salvo com sucesso')
+        }catch(e){
+            console.log('erro ao salvar')
+        }
     }
 
     const videoSave = async () => {
@@ -135,7 +148,7 @@ export default function Camera({ navigation }) {
         try {
             dispatch(saveVideoList(newVideo))
             console.log('Salvo no Redux com sucesso')
-
+            
             console.log(JSON.stringify(listVideos))
         } catch (e) {
             console.log('Erro ao salvar ' + e)
