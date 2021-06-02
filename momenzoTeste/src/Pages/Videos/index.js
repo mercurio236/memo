@@ -25,57 +25,44 @@ export default function Videos() {
         return new Promise(resolve => setTimeout(resolve, timeout))
     }
 
-    const STORAGE_KEY = 'item'
+    const STORAGE_KEY = 'save_video'
     const onRefresh = React.useCallback(() => {
         setRefresh(true)
         wait(2000).then(() => setRefresh(false))
 
-        async function roloVideos() {
-            try{
-            const userVideo = await AsyncStorage.getItem(STORAGE_KEY)
-            const reverso = JSON.parse(userVideo)
-            const { videos } = reverso
-            
-    
-                if (videos !== null) {
-                    setRolo(videos)
-                    console.log("Rolo ", userVideo)
-                    console.log('Videos salvos no Redux: ', videoSalvo)
-                    console.log('Videos: ', videos)
-                }
-            }
-            catch(err){
-                console.log('Erro ao carregar')
-            }
-        }
+        
         roloVideos()
     }, [])
 
 
 
     useEffect(() => {
-        //roloVideos()
+        roloVideos()
         onRefresh()
        
        
-    }, [])
+    }, [STORAGE_KEY])
     
 
 
-    /* async function roloVideos() {
-        const userVideo = await AsyncStorage.getItem('save_video')
+    async function roloVideos() {
+        try{
+        const userVideo = await AsyncStorage.getItem(STORAGE_KEY)
         const reverso = JSON.parse(userVideo)
-        dispatch(saveVideoList(reverso))
         const { videos } = reverso
+        
 
             if (videos !== null) {
                 setRolo(videos)
-                console.log("Rolo ", userVideo)
+                console.log("Rolo AsyncStorage", userVideo)
                 console.log('Videos salvos no Redux: ', videoSalvo)
-                console.log('Videos: ', videos)
+                console.log('Videos Async salvos: ', videos)
             }
-       
-    } */
+        }
+        catch(err){
+            console.log('Erro ao carregar')
+        }
+    }
 
     const clearData = async () => {
         try {
