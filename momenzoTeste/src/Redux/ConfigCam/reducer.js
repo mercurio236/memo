@@ -1,8 +1,10 @@
-import { RESOLUTION_CAM, SAVE_VIDEO, VIDEO_ASYNC } from './action';
+import { RESOLUTION_CAM, SAVE_VIDEO, ESTABILIDADE_CAM, DICAS_VIDEOS } from './action';
 
 const initialState = {
     resolutionCam: '',
     saveVideoList: [],
+    estabilidadeCam: false,
+    dicasVideosStatus: false
 
     
 }
@@ -18,6 +20,16 @@ export default (state = initialState, { type, payload }) => {
             return{
                 ...state,
                 saveVideoList: payload
+            }
+        case ESTABILIDADE_CAM:
+            return{
+                ...state,
+                estabilidadeCam: payload
+            }
+        case DICAS_VIDEOS:
+            return{
+                ...state,
+                dicasVideosStatus: payload
             }
        
 
