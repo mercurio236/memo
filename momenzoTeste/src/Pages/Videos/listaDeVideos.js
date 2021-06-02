@@ -12,7 +12,7 @@ export default function ListaDeVideos({ data }) {
 
     const video = useRef(null)
     const v = useSelector((state) => state.resolutionCam.saveVideoList)
-    console.log('Videos salvos: ', v)
+    console.log('Lista de videos salvos Redux: ', v)
 
     
     return (
@@ -24,7 +24,7 @@ export default function ListaDeVideos({ data }) {
                     <View>
                         <TouchableOpacity style={styles.listaVideos} onPress={() => setModal(!modal)}>
                             <Text>ID: {data.id}</Text>
-                            <Text>Uri: {data.uri}</Text>
+                            <Text>URI: {data.uri}</Text>
                         </TouchableOpacity>
 
                         <Modal key={data.id} visible={modal} transparent={false}>
