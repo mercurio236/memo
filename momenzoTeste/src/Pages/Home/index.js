@@ -47,6 +47,7 @@ function Home({ navigation }) {
 
     const STORAGE_KEY = 'save_video';
     const R = 'resolution';
+    const ESTABILIZATION_VIDEO = 'estabilizar';
 
     useEffect(() => {
         rollVideos()
@@ -56,7 +57,7 @@ function Home({ navigation }) {
     }, [])
 
    async function testeS(){
-        const c = await AsyncStorage.getItem(R)
+        const c = await AsyncStorage.getItem(ESTABILIZATION_VIDEO)
         setTeste(c)
         
     }
@@ -142,7 +143,8 @@ const styles = StyleSheet.create({
         borderRadius: 200,
         justifyContent: 'center',
         alignItems: 'center',
-        marginLeft: '80%'
+        marginLeft: '80%',
+        elevation: 6
     },
     linearGradient: {
         flex: 1,
