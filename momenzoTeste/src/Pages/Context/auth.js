@@ -51,7 +51,7 @@ function AuthProvider({ children }) {
 
     async function signOut(){
         await firebase.auth().signOut();
-        await AsyncStorange.clear()
+        await AsyncStorange.removeItem('Auth_user')
         .then(() =>{
             setUser(null);
         })
