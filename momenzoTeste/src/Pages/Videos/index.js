@@ -30,7 +30,7 @@ export default function Videos() {
         setRefresh(true)
         wait(2000).then(() => setRefresh(false))
 
-        
+
         roloVideos()
     }, [])
 
@@ -39,18 +39,18 @@ export default function Videos() {
     useEffect(() => {
         roloVideos()
         onRefresh()
-       
-       
+
+
     }, [STORAGE_KEY])
-    
+
 
 
     async function roloVideos() {
-        try{
-        const userVideo = await AsyncStorage.getItem(STORAGE_KEY)
-        const reverso = JSON.parse(userVideo)
-        const { videos } = reverso
-        
+        try {
+            const userVideo = await AsyncStorage.getItem(STORAGE_KEY)
+            const reverso = JSON.parse(userVideo)
+            const { videos } = reverso !== null ? reverso : { videos: [] }
+
 
             if (videos !== null) {
                 setRolo(videos)
@@ -59,8 +59,8 @@ export default function Videos() {
                 console.log('Videos Async salvos: ', videos)
             }
         }
-        catch(err){
-            console.log('Erro ao carregar')
+        catch (err) {
+            console.log('Erro ao carregar', err)
         }
     }
 

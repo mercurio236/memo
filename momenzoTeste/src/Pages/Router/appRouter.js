@@ -25,19 +25,19 @@ function AppRouters() {
             <Stack.Screen name="Rota" component={RouterSecundaria} options={{ headerShown: false }} />
             <Stack.Screen name="Camera" component={Cam} options={{ headerShown: false }} />
             <Stack.Screen name="CameraPro" component={CameraPro} options={{ headerShown: false }} />
-           
+
             {/* Cadastro inicial de imoveis */}
             <Stack.Screen name="Cad" component={Cadastro} options={{ headerShown: false }} />
-            <Stack.Screen name="Project" component={Project} options={{ headerShown: false }}/>
-            <Stack.Screen name="Localization" component={Localization} options={{ headerShown: false }}/>
-            <Stack.Screen name="Price" component={Price} options={{ headerShown: false }}/>
-            <Stack.Screen name="Space" component={Space} options={{ headerShown: false }}/>
-            <Stack.Screen name="Land" component={Land} options={{ headerShown: false }}/>
-            <Stack.Screen name="Parking" component={Parking} options={{ headerShown: false }}/>
-            <Stack.Screen name="Restroon" component={Restroon} options={{ headerShown: false }}/>
-            <Stack.Screen name="Badrooms" component={BadroomsLocal} options={{ headerShown: false }}/>
-            <Stack.Screen name="Ref" component={Ref} options={{ headerShown: false }}/>
-            <Stack.Screen name="AllSet" component={AllSet} options={{ headerShown: false }}/>
+            <Stack.Screen name="Project" component={Project} options={{ headerShown: false }} />
+            <Stack.Screen name="Localization" component={Localization} options={{ headerShown: false }} />
+            <Stack.Screen name="Price" component={Price} options={{ headerShown: false }} />
+            <Stack.Screen name="Space" component={Space} options={{ headerShown: false }} />
+            <Stack.Screen name="Land" component={Land} options={{ headerShown: false }} />
+            <Stack.Screen name="Parking" component={Parking} options={{ headerShown: false }} />
+            <Stack.Screen name="Restroon" component={Restroon} options={{ headerShown: false }} />
+            <Stack.Screen name="Badrooms" component={BadroomsLocal} options={{ headerShown: false }} />
+            <Stack.Screen name="Ref" component={Ref} options={{ headerShown: false }} />
+            <Stack.Screen name="AllSet" component={AllSet} options={{ headerShown: false }} />
 
         </Stack.Navigator>
     )
@@ -76,8 +76,8 @@ function RouterSecundaria() {
 
 /* Multi telas */
 
-const HeaderTop = ({cancelar, pular}) => {
-   
+const HeaderTop = ({ cancelar, pular }) => {
+
     return (
         <View style={styles.headerModal}>
             <View style={styles.btnPro}>
@@ -93,19 +93,19 @@ const HeaderTop = ({cancelar, pular}) => {
 }
 
 function Cadastro({ navigation }) {
-    
 
 
 
-    
+
+
     return (
         <View>
-            <HeaderTop pular={() => navigation.navigate('Camera')} cancelar={() => navigation.navigate('Rota')}/>
+            <HeaderTop pular={() => navigation.navigate('Camera')} cancelar={() => navigation.navigate('Rota')} />
 
             <View style={{ justifyContent: 'center', alignItems: 'center', marginBottom: '4%' }}>
                 <View style={{ justifyContent: 'center', alignItems: 'center', display: 'flex', flexDirection: 'row', marginTop: '10%', marginBottom: '5%' }}>
                     <Image style={{ width: 290, height: 110, marginEnd: 10 }} source={Logo} />
-                    
+
                 </View>
                 <Text style={{ textAlign: 'center', top: 10, fontSize: 17 }}>Selecione o tipo de Video que voce quer gravar</Text>
             </View>
@@ -128,7 +128,7 @@ function Project({ navigation }) {
     return (
 
         <View>
-            <HeaderTop pular={() => navigation.navigate('Camera')} cancelar={() => navigation.navigate('Rota')}/>
+            <HeaderTop pular={() => navigation.navigate('Camera')} cancelar={() => navigation.navigate('Rota')} />
 
             <View style={styles.container}>
                 <Text style={styles.textProject}>Nome do seu Projeto</Text>
@@ -157,7 +157,7 @@ function Project({ navigation }) {
 function Localization({ navigation }) {
     return (
         <View>
-            <HeaderTop pular={() => navigation.navigate('Camera')} cancelar={() => navigation.navigate('Rota')}/>
+            <HeaderTop pular={() => navigation.navigate('Camera')} cancelar={() => navigation.navigate('Rota')} />
             <View style={styles.container}>
                 <Text style={styles.textProject}>Localização da Propriedade</Text>
                 <TextInput
@@ -183,7 +183,7 @@ function Localization({ navigation }) {
 function Price({ navigation }) {
     return (
         <View>
-            <HeaderTop pular={() => navigation.navigate('Camera')} cancelar={() => navigation.navigate('Rota')}/>
+            <HeaderTop pular={() => navigation.navigate('Camera')} cancelar={() => navigation.navigate('Rota')} />
             <View style={styles.container}>
                 <Text style={styles.textProject}>Preço da Propriedade</Text>
                 <TextInput
@@ -210,7 +210,7 @@ function Price({ navigation }) {
 function Space({ navigation }) {
     return (
         <View>
-            <HeaderTop pular={() => navigation.navigate('Camera')} cancelar={() => navigation.navigate('Rota')}/>
+            <HeaderTop pular={() => navigation.navigate('Camera')} cancelar={() => navigation.navigate('Rota')} />
             <View style={styles.container}>
                 <Text style={styles.textProject}>Tamanho do Espaço Interior</Text>
                 <TextInput
@@ -237,7 +237,7 @@ function Space({ navigation }) {
 function Land({ navigation }) {
     return (
         <View >
-            <HeaderTop pular={() => navigation.navigate('Camera')} cancelar={() => navigation.navigate('Rota')}/>
+            <HeaderTop pular={() => navigation.navigate('Camera')} cancelar={() => navigation.navigate('Rota')} />
             <View style={styles.container}>
                 <Text style={styles.textProject}>Espaço Total da Propriedade</Text>
                 <TextInput
@@ -266,7 +266,7 @@ function Land({ navigation }) {
 function Parking({ navigation }) {
     return (
         <View>
-            <HeaderTop pular={() => navigation.navigate('Camera')} cancelar={() => navigation.navigate('Rota')}/>
+            <HeaderTop pular={() => navigation.navigate('Camera')} cancelar={() => navigation.navigate('Rota')} />
             <View style={styles.container}>
                 <Text style={styles.textProject}>Vagas de Estacionamento</Text>
                 <TextInput
@@ -292,7 +292,7 @@ function Parking({ navigation }) {
 function Restroon({ navigation }) {
     return (
         <View >
-            <HeaderTop pular={() => navigation.navigate('Camera')} cancelar={() => navigation.navigate('Rota')}/>
+            <HeaderTop pular={() => navigation.navigate('Camera')} cancelar={() => navigation.navigate('Rota')} />
             <View style={styles.container}>
                 <Text style={styles.textProject}>Quantidade de Banheiros</Text>
                 <TextInput
@@ -319,7 +319,7 @@ function Restroon({ navigation }) {
 function BadroomsLocal({ navigation }) {
     return (
         <View>
-            <HeaderTop pular={() => navigation.navigate('Camera')} cancelar={() => navigation.navigate('Rota')}/>
+            <HeaderTop pular={() => navigation.navigate('Camera')} cancelar={() => navigation.navigate('Rota')} />
             <View style={styles.container}>
                 <Text style={styles.textProject}>Quantidade de Quartos</Text>
                 <TextInput
@@ -346,7 +346,7 @@ function BadroomsLocal({ navigation }) {
 function Ref({ navigation }) {
     return (
         <View>
-            <HeaderTop pular={() => navigation.navigate('Camera')} cancelar={() => navigation.navigate('Rota')}/>
+            <HeaderTop pular={() => navigation.navigate('Camera')} cancelar={() => navigation.navigate('Rota')} />
             <View style={styles.container}>
                 <Text style={styles.textProject}>Nome da Lista</Text>
                 <TextInput
@@ -415,24 +415,24 @@ const styles = StyleSheet.create({
         height: 250,
         marginEnd: 7,
         borderRadius: 5,
-        justifyContent:'center',
-        alignItems:'center',
-        
+        justifyContent: 'center',
+        alignItems: 'center',
+
     },
     btnProfissional: {
         backgroundColor: '#3791A6',
         height: 250,
         width: '47%',
         borderRadius: 5,
-        justifyContent:'center',
-        alignItems:'center'
+        justifyContent: 'center',
+        alignItems: 'center'
 
     },
     container: {
         justifyContent: 'center',
         alignItems: 'center',
         marginTop: '59%',
-        
+
     },
     textProject: {
         fontSize: 23,
@@ -464,7 +464,7 @@ const styles = StyleSheet.create({
     btnPro: {
         display: 'flex',
         flexDirection: 'row',
-        justifyContent:'space-between',
+        justifyContent: 'space-between',
         alignItems: 'center',
         margin: 18
     },

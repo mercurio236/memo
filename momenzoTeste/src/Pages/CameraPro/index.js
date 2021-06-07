@@ -73,7 +73,7 @@ export default function Camera({ navigation }) {
 
         })
 
-        Animated.timing(tamanho, { toValue: 690, duration: 8000, easing: Easing.linear }).start()
+        Animated.timing(tamanho, { toValue: 690, duration: 5000, easing: Easing.linear }).start()
 
 
     }, [])
@@ -82,7 +82,7 @@ export default function Camera({ navigation }) {
         if (!saveVideos) return
         //salvarAsync(saveVideos)
         videoSave(saveVideos)
-        
+
         //dispatch(saveVideoList(saveVideos))
 
         Alert.alert('Video ', 'Deseja salvar o video em sua galeria?',
@@ -119,33 +119,72 @@ export default function Camera({ navigation }) {
 
     }
 
-    
+
     const videoSave = async () => {
         let newVideo = { ...saveVideos }
-        
+
         let listVideos = {
             id: new Date().getTime(),
             uri: videoSource
         }
         newVideo.videos.push(listVideos)
-        
+
         try {
             dispatch(saveVideoList(newVideo))
             salvarAsync()
             console.log('Salvo no Redux com sucesso')
-            
+
             console.log(JSON.stringify(listVideos))
         } catch (e) {
             console.log('Erro ao salvar ' + e)
         }
-        
+
     }
-    
+
+    /* const eliminaDuplicatas = (array) => {
+        let newArray = [];
+        array.map((ar) => {
+            let encontrou = 0;
+            newArray.map((newAr) => {
+                if (ar.id === newAr.id) {
+                    encontrou = 1;
+                }
+            })
+            if (encontrou === 0) {
+                newArray.push(ar);
+            }
+        });
+        return newArray;
+    } */
+    const eliminaDuplicatas = (object) => {
+        let newObject = { videos: [] };
+        object.videos.map((ar) => {
+            let encontrou = 0;
+            newObject.videos.map((newAr) => {
+                if (ar.id === newAr.id) {
+                    encontrou = 1;
+                }
+            })
+            if (encontrou === 0) {
+                newObject.videos.push(ar);
+            }
+        });
+        return newObject;
+    }
+
     async function salvarAsync() {
-        try{
-            await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(saveVideos))
+        try {
+            let videosSalvos = await AsyncStorage.getItem(STORAGE_KEY);
+            videosSalvos = JSON.parse(videosSalvos);
+            if (JSON.stringify(videosSalvos) !== "null") {
+                videosSalvos.videos = [...videosSalvos.videos, ...saveVideos.videos]
+            } else {
+                videosSalvos = { videos: [] };
+                videosSalvos.videos = [...saveVideos.videos];
+            }
+            await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(eliminaDuplicatas(videosSalvos)));
             console.log('Storage salvo com sucesso')
-        }catch(e){
+        } catch (e) {
             console.log('erro ao salvar')
         }
     }
@@ -328,7 +367,7 @@ export default function Camera({ navigation }) {
                                 </TouchableOpacity>
                             </View>
                             <Animated.View style={{ top: tamanho, backgroundColor: '#FFF' }}>
-                                <LottieView source={Arrow} autoPlay loop style={{ width: 100, height: 100, top: -400 }} />
+                                <LottieView source={Arrow} loop speed={100} style={{ width: 100, height: 100, top: -400 }} />
                             </Animated.View>
                         </View>
                     )

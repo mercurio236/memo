@@ -56,12 +56,12 @@ function Home({ navigation }) {
         console.log(user)
     }, [])
 
-   async function testeS(){
+    async function testeS() {
         const c = await AsyncStorage.getItem(ESTABILIZATION_VIDEO)
         setTeste(c)
-        
+
     }
-    
+
 
 
     const clearData = async () => {
@@ -100,7 +100,7 @@ function Home({ navigation }) {
                     renderItem={({ item }) => <ListaVideos data={item} />}
 
                 />
-                <Text style={{color:'#000'}}>{teste}</Text>
+                <Text style={{ color: '#000' }}>{teste}</Text>
 
 
                 <TouchableOpacity style={styles.btnAdd} onPress={() => setModal(true)}>
